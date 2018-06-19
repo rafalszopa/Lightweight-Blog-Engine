@@ -1,4 +1,5 @@
 ﻿using Blog.Core.Models;
+using Blog.Core.Repository;
 using Blog.Persistance.Queries;
 using Dapper;
 using System;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace Blog.Persistance
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         public UserRepository() { }
 
