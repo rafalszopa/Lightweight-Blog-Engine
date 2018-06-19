@@ -10,12 +10,29 @@ namespace Blog.Persistance.Queries
             return GetPost() + GetPostTags() + GetPostDetails() + GetPostDetails();
         }
 
-        public static string Add()
+        public static string AddPost(Post post)
         {
             string query = 
                 @"INSERT INTO Posts (Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId)
                 VALUES (@Title, @Description, @CreateDate, @PublishDate, @PhotoUrl, @UserId, @Status)
                 SELECT CAST(SCOPE_IDENTITY() as int);";
+
+            foreach(var tag in post.Tags)
+            {
+                query += string.Format(
+                    @"INSERT INTO Post_Tag (PostId, Tag)
+                    VALUES({0}, {1});", post.Id, tag.Name);
+            }
+
+            return query;
+        }
+
+        public static string AddPostDetails()
+        {
+            string query =
+                @"INSERT INTO PostDetails (PostId, Content)
+                VALUES (@PostId, @Content);
+                SELECT @@ROWCOUNT;;";
 
             return query;
         }
@@ -71,10 +88,11 @@ namespace Blog.Persistance.Queries
 
         public static string GetPostTags()
         {
-            string query = @"SELECT Tags.Name, Tags.Count
-                            FROM Post_Tag
-                            JOIN Tags ON Post_Tag.Tag = Tags.Name
-                            WHERE Post_Tag.PostId = @PostId;";
+            string query = 
+                @"SELECT Tags.Name, Tags.Count
+                FROM Post_Tag
+                JOIN Tags ON Post_Tag.Tag = Tags.Name
+                WHERE Post_Tag.PostId = @PostId;";
 
             return query;
         }

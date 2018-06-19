@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data;
 using Dapper;
 using Blog.Persistance.Queries;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace Blog.Persistance
@@ -21,47 +20,31 @@ namespace Blog.Persistance
             this.transaction = transaction;
         }
 
-        public int Add(Post entity)
+        public int AddPost(Post entity)
         {
-            using (IDbConnection connection = ConnectionFactory.Get)
-            {
-                int postId = 0;
-
-                try
+            int postId = this.connection.ExecuteScalar<int>(
+                PostQuery.AddPost(entity),
+                new
                 {
-                    // Add Post
-                    postId = connection.ExecuteScalar<int>(PostQuery.Add(), new
-                    {
-                        Title = entity.Title,
-                        Description = entity.Description,
-                        CreateDate = entity.CreateDate,
-                        PublishDate = entity.PublishDate,
-                        PhotoUrl = entity.PhotoUrl,
-                        UserId = entity.Author.Id,
-                        Status = entity.Status
-                    });
+                    Title = entity.Title,
+                    Description = entity.Description,
+                    CreateDate = entity.CreateDate,
+                    PublishDate = entity.PublishDate,
+                    PhotoUrl = entity.PhotoUrl,
+                    UserId = entity.Author.Id,
+                    Status = entity.Status
+                },
+                this.transaction);
 
-                    entity.Details.PostDetailsId = postId;
+            return postId;
+        }
 
-                    // Add Tags
-                    var tagRepository = new TagRepository();
-                    foreach(var tag in entity.Tags)
-                    {
-                        if (tagRepository.GetByName(tag.Name) == null)
-                        {
-                            tagRepository.Add(tag);
-                        }
+        public int AddPostDetails(int postId, PostDetails entity)
+        {
+            int affectedRows = this.connection.ExecuteScalar<int>(
+                PostQuery.AddPostDetails(), new { PostId = postId, Content = entity.Content }, this.transaction);
 
-                        connection.Execute(PostTagQuery.Add(), new { PostID = postId, TagName = tag.Name });
-                    }
-                }
-                catch (SqlException exception) when (exception.Number == 2627 || exception.Number == 2601)
-                {
-                    // Log information that value has already existed
-                }
-
-                return postId;
-            }
+            return affectedRows;
         }
 
         public Post GetFullPostById(int id)

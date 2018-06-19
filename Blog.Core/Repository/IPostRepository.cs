@@ -5,7 +5,9 @@ namespace Blog.Core.Repository
 {
     public interface IPostRepository
     {
-        int Add(Post entity);
+        int AddPost(Post entity);
+
+        int AddPostDetails(int postId, PostDetails entity);
 
         Post GetById(int id);
 
