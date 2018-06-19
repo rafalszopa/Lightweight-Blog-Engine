@@ -2,9 +2,10 @@
 {
     public enum PostStatus
     {
-        Draft = 0,
         Live = 1,
-        Obsolete = 2,
-        Deleted = 3
+        Draft = 2,
+        Hidden = 3,
+        Obsolete = 4,
+        Deleted = 5
     }
 }

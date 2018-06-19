@@ -11,7 +11,7 @@ namespace Blog.Core.Models
 
         public string Description { get; set; }
 
-        public List<string> Tags { get; set; }
+        public List<Tag> Tags { get; set; }
 
         public PostStatus Status { get; set; }
 
@@ -23,8 +23,26 @@ namespace Blog.Core.Models
 
         public PostDetails Details { get; set; }
 
+        public User Author { get; private set; }
+
         public Post()
         {
+
+        }
+
+        public Post(string title, string description, PostStatus status, DateTime createTime, DateTime publishData, string photoUrl,
+            List<Tag> tags, PostDetails postDetails, User author, int id = 0)
+        {
+            this.Id = id;
+            this.Title = title;
+            this.Description = description;
+            this.Tags = tags;
+            this.Status = status;
+            this.CreateDate = createTime;
+            this.PublishDate = publishData;
+            this.PhotoUrl = photoUrl;
+            this.Details = postDetails;
+            this.Author = author;
 
         }
     }
