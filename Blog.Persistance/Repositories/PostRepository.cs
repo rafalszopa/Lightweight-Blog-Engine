@@ -12,9 +12,13 @@ namespace Blog.Persistance
 {
     public class PostRepository : IPostRepository
     {
-        public PostRepository()
-        {
+        private IDbTransaction transaction;
 
+        private IDbConnection connection { get { return transaction.Connection; } }
+
+        public PostRepository(IDbTransaction transaction)
+        {
+            this.transaction = transaction;
         }
 
         public int Add(Post entity)
@@ -38,10 +42,6 @@ namespace Blog.Persistance
                     });
 
                     entity.Details.PostDetailsId = postId;
-
-                    // Add PostDetails
-                    var postDetailsRepository = new PostDetailsRepository();
-                    postDetailsRepository.Add(entity.Details);
 
                     // Add Tags
                     var tagRepository = new TagRepository();
