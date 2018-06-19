@@ -10,9 +10,13 @@ namespace Blog.Persistance
 {
     public class TagRepository : ITagRepository
     {
-        public TagRepository()
-        {
+        private IDbTransaction transaction;
 
+        private IDbConnection connection { get { return transaction.Connection; } }
+
+        public TagRepository(IDbTransaction transaction)
+        {
+            this.transaction = transaction;
         }
 
         public int Add(Tag tag)
