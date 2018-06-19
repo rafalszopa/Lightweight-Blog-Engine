@@ -1,5 +1,6 @@
 ﻿using Blog.Core.Models;
 using NUnit.Framework;
+using System.Data;
 using System.IO;
 using System.Linq;
 
@@ -8,13 +9,19 @@ namespace Blog.Persistance.Tests
     [TestFixture]
     public class UserRepositoryTests
     {
+        private IDbTransaction transaction;
+
+        private IDbConnection connection;
+
         private readonly UserRepository userRepository;
 
         private readonly string populateTestDataSqlScript;
 
         public UserRepositoryTests()
         {
-            this.userRepository = new UserRepository();
+            this.connection = ConnectionFactory.Get;
+            this.transaction = this.connection.BeginTransaction();
+            this.userRepository = new UserRepository(this.transaction);
             this.populateTestDataSqlScript = File.ReadAllText(@"E:\Projects\lightweight-blog-engine\Blog.Persistance.Tests\SqlScripts\UserRepositoryTestsData.sql");
         }
 

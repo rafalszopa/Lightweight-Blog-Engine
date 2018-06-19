@@ -3,6 +3,7 @@ using Blog.Core.Repository;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 
@@ -11,6 +12,10 @@ namespace Blog.Persistance.Tests
     [TestFixture]
     class PostRepositoryTests
     {
+        private IDbTransaction transaction;
+
+        private IDbConnection connection;
+
         private string populateTestData;
 
         private IPostRepository postRepository;
@@ -25,11 +30,14 @@ namespace Blog.Persistance.Tests
 
         public PostRepositoryTests()
         {
+            // TO DO: Extract below to separate class
+            this.connection = ConnectionFactory.Get;
+            this.transaction = this.connection.BeginTransaction();
+
             this.populateTestData = File.ReadAllText(@"E:\Projects\lightweight-blog-engine\Blog.Persistance.Tests\SqlScripts\PopulateTestData.sql");
 
-            this.postRepository = new PostRepository();
-
-            this.tagRepository = new TagRepository();
+            this.postRepository = new PostRepository(this.transaction);
+            this.tagRepository = new TagRepository(this.transaction);
 
             this.teslaUser = new User
                 (1, "Nikola", "Tesla", DateTime.Parse("2000-01-01"), "nikola@tesla.com", "Electrical engineer and inventor", UserType.Author, true);
@@ -67,7 +75,7 @@ namespace Blog.Persistance.Tests
         public void InsertAndThenSelectPost_CorrectPost_ShouldPopulatePostInDatabaseAndThenReturn()
         {
             // Arrange
-            var postId = this.postRepository.Add(this.correctPost);
+            var postId = this.postRepository.AddPost(this.correctPost);
 
             // Act
             var resultPost = this.postRepository.GetFullPostById(postId);
@@ -112,7 +120,7 @@ namespace Blog.Persistance.Tests
             Assert.AreEqual(1, tags.Where(o => o.Name == "vue.js").Select(o => o.Count));
 
             // Act
-            this.postRepository.Add(this.correctPost);
+            this.postRepository.AddPost(this.correctPost);
             tags = this.tagRepository.GetAll();
 
             // Assert

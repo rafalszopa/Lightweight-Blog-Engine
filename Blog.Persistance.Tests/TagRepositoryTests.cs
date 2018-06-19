@@ -2,6 +2,7 @@
 using Blog.Core.Repository;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 
@@ -10,13 +11,20 @@ namespace Blog.Persistance.Tests
     [TestFixture]
     public class TagRepositoryTests
     {
+        private IDbTransaction transaction;
+
+        private IDbConnection connection;
+
         private readonly ITagRepository tagRepository;
 
         private readonly string populateTestDataSqlScript;
 
         public TagRepositoryTests()
         {
-            this.tagRepository = new TagRepository();
+            this.connection = ConnectionFactory.Get;
+            this.transaction = this.connection.BeginTransaction();
+
+            this.tagRepository = new TagRepository(this.transaction);
             this.populateTestDataSqlScript = File.ReadAllText(@"E:\Projects\lightweight-blog-engine\Blog.Persistance.Tests\SqlScripts\TagRepositoryTestsData.sql");
         }
 
