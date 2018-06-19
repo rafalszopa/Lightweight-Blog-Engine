@@ -21,55 +21,37 @@ namespace Blog.Persistance
 
         public int Add(Tag tag)
         {
-            using (IDbConnection connection = ConnectionFactory.Get)
-            {
-                int affectedRows = connection.Execute(TagQuery.Add(), new { TagName = tag.Name });
-                return affectedRows;
-            }
+            int affectedRows = this.connection.Execute(TagQuery.Add(), new { TagName = tag.Name }, this.transaction);
+            return affectedRows;
         }
 
         public void AddMany(IEnumerable<Tag> tags)
         {
-            using (IDbConnection connection = ConnectionFactory.Get)
-            {
-                connection.Execute(TagQuery.AddMany(tags));
-            }
+            this.connection.Execute(TagQuery.AddMany(tags), this.transaction);
         }
 
         public int DeleteByName(string tagName)
         {
-            using (IDbConnection connection = ConnectionFactory.Get)
-            {
-                int affectedRows = connection.ExecuteScalar<int>(TagQuery.Delete(), new { TagName = tagName });
-                return affectedRows;
-            }
+            int affectedRows = this.connection.ExecuteScalar<int>(TagQuery.Delete(), new { TagName = tagName }, this.transaction);
+            return affectedRows;
         }
 
         public Tag GetByName(string tagName)
         {
-            using (IDbConnection connection = ConnectionFactory.Get)
-            {
-                var tag = connection.QueryFirstOrDefault<Tag>(TagQuery.GetTagByName(), new { TagName = tagName });
-                return tag;
-            }
+            var tag = this.connection.QueryFirstOrDefault<Tag>(TagQuery.GetTagByName(), new { TagName = tagName }, this.transaction);
+            return tag;
         }
 
         public IEnumerable<Tag> GetTagsByPostId(int postId)
         {
-            using(IDbConnection connection = ConnectionFactory.Get)
-            {
-                var tags = connection.Query<Tag>(TagQuery.GetTagsByPostId(), new { PostId = postId });
-                return tags;
-            }
+            var tags = this.connection.Query<Tag>(TagQuery.GetTagsByPostId(), new { PostId = postId }, this.transaction);
+            return tags;
         }
 
         public IEnumerable<Tag> GetAll()
-        {
-            using (IDbConnection connection = ConnectionFactory.Get)
-            {               
-                var tags = connection.Query<Tag>(TagQuery.GetAll()).ToList();
-                return tags;
-            }
+        {     
+            var tags = this.connection.Query<Tag>(TagQuery.GetAll(), this.transaction).ToList();
+            return tags;
         }
     }
 }
