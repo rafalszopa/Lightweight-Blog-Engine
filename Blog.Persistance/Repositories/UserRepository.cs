@@ -24,8 +24,16 @@ namespace Blog.Persistance
         {
             int affectedRows = this.connection.ExecuteScalar<int>(
                 UserQuery.Add(),
-                new { FirstName = entity.FirstName, LastName = entity.LastName, Email = entity.Email,
-                    Bio = entity.Bio, CreateDate = DateTime.Now, UserTypeId = entity.Type, IsActive = entity.IsActive },
+                new
+                {
+                    FirstName = entity.FirstName,
+                    LastName = entity.LastName,
+                    Email = entity.Email,
+                    Bio = entity.Bio,
+                    CreateDate = DateTime.Now,
+                    UserTypeId = entity.Type,
+                    IsActive = entity.IsActive
+                },
                 this.transaction);
 
                 return affectedRows;
@@ -33,9 +41,18 @@ namespace Blog.Persistance
 
         public int Update(User entity)
         {
-            var affectedRows = this.connection.ExecuteScalar<int>(UserQuery.Update(),
-                new { @UserId = entity.Id, FirstName = entity.FirstName, LastName = entity.LastName, Email = entity.Email,
-                    Bio = entity.Bio, UserType = entity.Type, IsActive = entity.IsActive },
+            var affectedRows = this.connection.ExecuteScalar<int>(
+                UserQuery.Update(),
+                new
+                {
+                    UserId = entity.Id,
+                    FirstName = entity.FirstName,
+                    LastName = entity.LastName,
+                    Email = entity.Email,
+                    Bio = entity.Bio,
+                    UserType = entity.Type,
+                    IsActive = entity.IsActive
+                },
                 this.transaction);
 
             return affectedRows;
