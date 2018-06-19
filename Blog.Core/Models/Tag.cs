@@ -2,13 +2,14 @@
 {
     public class Tag
     {
+        private string name;
+
         public string Name
         {
             get
             {
-                return Name.ToLower();
+                return this.name.ToLower();
             }
-            private set { }
         }
 
         public int Count { get; private set; }
@@ -19,7 +20,7 @@
 
         public Tag(string name, int count)
         {
-            this.Name = name;
+            this.name = name;
             this.Count = count;
         }
     }
