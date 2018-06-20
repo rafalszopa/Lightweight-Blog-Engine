@@ -23,7 +23,7 @@ namespace Blog.Persistance
         public int AddPost(Post entity)
         {
             int postId = this.connection.ExecuteScalar<int>(
-                PostQuery.AddPost(entity),
+                PostQuery.AddPost(),
                 new
                 {
                     Title = entity.Title,
