@@ -65,9 +65,10 @@ CREATE TABLE [dbo].[Users](
 )
 
 CREATE TABLE [dbo].[Tags](
-	[Name]			varchar(20)			NOT NULL PRIMARY KEY,
+	[Id]			int	IDENTITY(1,1)	NOT NULL,
+	[Name]			varchar(20)			NOT NULL,
 	[Count]			int					NOT NULL
-	--PRIMARY KEY CLUSTERED ([Name] ASC)
+	PRIMARY KEY CLUSTERED ([Id] ASC)
 )
 
 CREATE TABLE [dbo].[PostStatuses](
@@ -98,8 +99,8 @@ CREATE TABLE [dbo].[PostDetails](
 
 CREATE TABLE [dbo].[Post_Tag](
 	[PostId]		int					NOT NULL,
-	[Tag]			varchar(20)			NOT NULL,
+	[TagId]			int					NOT NULL,
 	CONSTRAINT [FK_Posts_Tags_Post] FOREIGN KEY ([PostId]) REFERENCES [dbo].[Posts]([Id]),
-	CONSTRAINT [FK_Posts_Tags_Tag] FOREIGN KEY ([Tag]) REFERENCES [dbo].[Tags]([Name]),
-	CONSTRAINT [UQ_codes] UNIQUE NONCLUSTERED([PostId], [Tag])
+	CONSTRAINT [FK_Posts_Tags_Tag] FOREIGN KEY ([TagId]) REFERENCES [dbo].[Tags]([Id]),
+	CONSTRAINT [UQ_codes] UNIQUE NONCLUSTERED([PostId], [TagId])
 )

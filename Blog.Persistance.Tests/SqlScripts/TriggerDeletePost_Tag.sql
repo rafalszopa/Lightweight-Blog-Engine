@@ -4,25 +4,25 @@
 CREATE TRIGGER triggerAfterDeleteOfPost_Tag ON [dbo].[Post_Tag] 
 FOR DELETE
 AS
-	DECLARE @tag varchar(20);
-	DECLARE @count int;
+	DECLARE @id	int;
+	DECLARE @count	int;
 
-	SELECT @tag = i.Tag from deleted i;
-	SELECT @count = tags.Count from [dbo].[Tags] tags where Name = @tag;
+	SELECT @id = i.TagId from deleted i;
+	SELECT @count = tags.Count from [dbo].[Tags] tags where Id = @id;
 	
 	SET @count = @count - 1; -- Decrease 'Count' value after value is deleted from Post_Tag table'
 	PRINT 'Count: ' + STR(@count);
 	IF @count = 0
 		BEGIN
 			DELETE FROM [dbo].[Tags]
-			WHERE Name = @tag;
+			WHERE Id = @id;
 		END
 	ELSE
 		BEGIN
 			UPDATE [dbo].[Tags]
 			SET Count = @count
-			WHERE Name = @tag;
+			WHERE Id = @id;
 		END
 
-	PRINT 'Decreased value of Count for tag: ' + @tag;
+	--PRINT 'Decreased value of Count for tag: ' + @id;
 --GO

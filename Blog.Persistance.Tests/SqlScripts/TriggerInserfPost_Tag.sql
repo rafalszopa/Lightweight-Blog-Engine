@@ -2,17 +2,17 @@
 CREATE TRIGGER triggerAfterInsertOfPost_Tag ON [dbo].[Post_Tag] 
 FOR INSERT
 AS
-	DECLARE @tag varchar(20);
-	DECLARE @count int;
+	DECLARE @id		int;
+	DECLARE @count	int;
 
-	SELECT @tag = i.Tag from inserted i;
-	SELECT @count = tags.Count from [dbo].[Tags] tags where Name = @tag;
+	SELECT @id = i.TagId from inserted i;
+	SELECT @count = tags.Count from [dbo].[Tags] tags where Id = @id;
 	
 	SET @count = @count + 1; -- Increase 'Count' value after new value is inserted into Post_Tag table'
 
 	UPDATE [dbo].[Tags]
 	SET Count = @count
-	WHERE Name = @tag;
+	WHERE Id = @id;
 
-	PRINT 'Increased value of Count for tag: ' + @tag;
+	--PRINT 'Increased value of Count for tag: ' + @id;
 --GO

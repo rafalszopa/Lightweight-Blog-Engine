@@ -44,14 +44,14 @@ INSERT INTO [dbo].[Posts] (Title, Description, CreateDate, PublishDate, PhotoUrl
 INSERT INTO [dbo].[PostDetails] (PostId, Content) VALUES
 (1, '<div class="content">This is some examplary content.</div>')
 
-INSERT INTO [dbo].[Post_Tag] (PostId, Tag) VALUES
-(1, 'programming');
+INSERT INTO [dbo].[Post_Tag] (PostId, TagId) VALUES
+(1, 1);
 
-INSERT INTO [dbo].[Post_Tag] (PostId, Tag) VALUES
-(1, 'javascript');
+INSERT INTO [dbo].[Post_Tag] (PostId, TagId) VALUES
+(1, 2);
 
-INSERT INTO [dbo].[Post_Tag] (PostId, Tag) VALUES
-(1, 'agile');
+INSERT INTO [dbo].[Post_Tag] (PostId, TagId) VALUES
+(1, 3);
 
-INSERT INTO [dbo].[Post_Tag] (PostId, Tag) VALUES
-(1, 'vue.js');
+INSERT INTO [dbo].[Post_Tag] (PostId, TagId) VALUES
+(1, 4);
