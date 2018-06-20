@@ -26,6 +26,8 @@ namespace Blog.Persistance
 
         private IPostTagsRepository postTagsRepository;
 
+        private bool disposed;
+
         #endregion
 
         #region Constructor
@@ -87,7 +89,7 @@ namespace Blog.Persistance
             {
                 this.transaction.Dispose();
                 this.transaction = connection.BeginTransaction();
-
+                this.ResetRepositories();
             }
         }
 
@@ -101,7 +103,31 @@ namespace Blog.Persistance
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.Dispose(true);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    this.transaction.Dispose();
+                    this.transaction = null;
+                }
+                if (this.connection != null)
+                {
+                    this.connection.Dispose();
+                    this.connection = null;
+                }
+            }
+
+            this.disposed = true;
+        }
+
+        ~UnityOfWork()
+        {
+            this.Dispose(false);
         }
     }
 }
