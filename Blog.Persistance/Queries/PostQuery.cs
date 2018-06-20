@@ -10,19 +10,12 @@ namespace Blog.Persistance.Queries
             return GetPost() + GetPostTags() + GetPostDetails() + GetPostDetails();
         }
 
-        public static string AddPost(Post post)
+        public static string AddPost()
         {
             string query = 
                 @"INSERT INTO Posts (Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId)
                 VALUES (@Title, @Description, @CreateDate, @PublishDate, @PhotoUrl, @UserId, @Status)
                 SELECT CAST(SCOPE_IDENTITY() as int);";
-
-            foreach(var tag in post.Tags)
-            {
-                query += string.Format(
-                    @"INSERT INTO Post_Tag (PostId, Tag)
-                    VALUES({0}, {1});", post.Id, tag.Name);
-            }
 
             return query;
         }
