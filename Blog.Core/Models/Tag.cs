@@ -2,6 +2,8 @@
 {
     public class Tag
     {
+        public int Id { get; private set; }
+
         private string name;
 
         public string Name
@@ -16,9 +18,9 @@
 
         public Tag() { }
 
-        public Tag(string name) : this(name, 0) { }
+        public Tag(string name) : this(0, name) { }
 
-        public Tag(string name, int count)
+        public Tag(int id, string name, int count = 0)
         {
             this.name = name;
             this.Count = count;
