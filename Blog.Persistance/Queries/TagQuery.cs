@@ -9,7 +9,8 @@ namespace Blog.Persistance.Queries
         {
             string query =
                 @"IF NOT EXISTS(SELECT 1 FROM Tags WHERE Name = @TagName)" +
-                "INSERT INTO Tags(Name, Count) VALUES (@TagName, 0);";
+                "INSERT INTO Tags(Name, Count) VALUES (@TagName, 0);" +
+                "SELECT CAST(SCOPE_IDENTITY() as int);";
 
             return query;
         }
