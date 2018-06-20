@@ -6,6 +6,7 @@ using Dapper;
 using System.Linq;
 using Blog.Core.Models;
 
+// TO DO: fix namespace
 namespace Blog.Persistance
 {
     public class TagRepository : ITagRepository
@@ -21,13 +22,17 @@ namespace Blog.Persistance
 
         public int Add(Tag tag)
         {
-            int affectedRows = this.connection.Execute(TagQuery.Add(), new { TagName = tag.Name }, this.transaction);
-            return affectedRows;
+            int tagId = this.connection.ExecuteScalar<int>(TagQuery.Add(), new { TagName = tag.Name }, this.transaction);
+            return tagId;
         }
 
         public void AddMany(IEnumerable<Tag> tags)
         {
-            this.connection.Execute(TagQuery.AddMany(tags), this.transaction);
+            foreach(var tag in tags)
+            {
+                this.Add(tag);
+            }
+            //this.connection.Execute(TagQuery.AddMany(tags), this.transaction);
         }
 
         public int DeleteByName(string tagName)
