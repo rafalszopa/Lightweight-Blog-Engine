@@ -2,12 +2,14 @@
 using System;
 using System.Data;
 using Blog.Core.Repository;
+using System.Data.SqlClient;
 
 namespace Blog.Persistance
 {
     /* TO DO:
-     - pass connection string from constructor to ConnectionFactory
-     - think about DI */
+     * RENAME CLASS (typo)!
+     * pass connection string from constructor to ConnectionFactory
+     * think about DI */
     public class UnityOfWork : IUnityOfWork, IDisposable
     {
         #region private fields
@@ -22,13 +24,17 @@ namespace Blog.Persistance
 
         private IUserRepository userRepository;
 
+        private IPostTagsRepository postTagsRepository;
+
         #endregion
 
         #region Constructor
 
         public UnityOfWork(string connection)
         {
-            this.connection = ConnectionFactory.Get;
+            //this.connection = ConnectionFactory.Get;
+            this.connection = new SqlConnection(@"Data Source=DESKTOP-NA9A7AC;Initial Catalog=Blog.IntegrationTests;User id=DESKTOP-NA9A7AC\Rafal;Integrated Security=True;");
+            this.connection.Open();
             this.transaction = this.connection.BeginTransaction();
         }
 
@@ -58,9 +64,39 @@ namespace Blog.Persistance
             }
         }
 
+        public IPostTagsRepository PostTagsRepository
+        {
+            get
+            {
+                return this.postTagsRepository ?? (this.postTagsRepository = new PostTagsRepository(this.transaction)); ;
+            }
+        }
+
         public void Commit()
         {
-            throw new NotImplementedException();
+            try
+            {
+                this.transaction.Commit();
+            }
+            catch
+            {
+                this.transaction.Rollback();
+                throw;
+            }
+            finally
+            {
+                this.transaction.Dispose();
+                this.transaction = connection.BeginTransaction();
+
+            }
+        }
+
+        private void ResetRepositories()
+        {
+            this.postRepository = null;
+            this.tagRepository = null;
+            this.userRepository = null;
+            this.postTagsRepository = null;
         }
 
         public void Dispose()

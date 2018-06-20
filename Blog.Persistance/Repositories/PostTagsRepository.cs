@@ -1,11 +1,12 @@
-﻿using Blog.Core.Models;
+﻿using System.Data;
+using Blog.Core.Models;
+using Blog.Core.Repository;
+using Blog.Persistance.Queries;
 using Dapper;
-using System.Collections.Generic;
-using System.Data;
 
 namespace Blog.Persistance
 {
-    public class PostTagsRepository
+    public class PostTagsRepository : IPostTagsRepository
     {
         private IDbTransaction transaction;
 
@@ -16,22 +17,16 @@ namespace Blog.Persistance
             this.transaction = transaction;
         }
 
-        public void Add(int postId, Tag tag)
+        public int Add(int postId, Tag tag)
         {
-            this.connection.Execute(@"INSERT INTO Post_Tag(PostId, TagId) VALUES(@PostId, @TagId)", new { PostId = postId, TagId = tag.Id }, this.transaction);
+            var affectedRows = this.connection.ExecuteScalar<int>(PostTagsQuery.Add(), new { PostId = postId, TagId = tag.Id }, this.transaction);
+            return affectedRows;
         }
 
-        public void AddTags(int postId, IEnumerable<Tag> tags)
+        public int Delete(int postId, Tag tag)
         {
-            string query = @"INSERT INTO Post_Tag(PostId, TagId)";
-
-            foreach(var tag in tags)
-            {
-                query = string.Format(@"VALUES({0}, {1});", postId, tag.Id);
-            }
-            query += ";";
-
-            this.connection.Execute(query, this.transaction);
+            var affectedRows = this.connection.ExecuteScalar<int>(PostTagsQuery.Delete(), new { PostId = postId, TagId = tag.Id }, this.transaction);
+            return affectedRows;
         }
     }
 }
