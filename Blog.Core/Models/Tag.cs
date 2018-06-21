@@ -1,6 +1,8 @@
-﻿namespace Blog.Core.Models
+﻿using System;
+
+namespace Blog.Core.Models
 {
-    public class Tag
+    public class Tag : ICloneable
     {
         public int Id { get; private set; }
 
@@ -22,8 +24,14 @@
 
         public Tag(int id, string name, int count = 0)
         {
+            this.Id = id;
             this.name = name;
             this.Count = count;
+        }
+
+        public object Clone()
+        {
+            return new Tag(this.Id, this.Name, this.Count);
         }
     }
 }
