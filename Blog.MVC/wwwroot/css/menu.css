@@ -1,0 +1,100 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 76px;
+  z-index: 1; }
+  .navbar .menu input[type=checkbox]:hover ~ .hamburger {
+    box-shadow: 0px 0px 50px 5px rgba(0, 0, 0, 0.5); }
+  .navbar .menu input[type=checkbox]:checked ~ .overlay {
+    opacity: 1;
+    visibility: visible;
+    transform: scale3d(1, 1, 1); }
+    .navbar .menu input[type=checkbox]:checked ~ .overlay:before {
+      width: 50%; }
+    .navbar .menu input[type=checkbox]:checked ~ .overlay:after {
+      width: 50%; }
+  .navbar .menu input[type=checkbox]:checked ~ .menu-content {
+    opacity: 1;
+    visibility: visible;
+    height: 100vh;
+    transition: all 0.5s ease;
+    transition-delay: 0.5s; }
+  .navbar .menu .overlay {
+    transition: all 0.8s ease-in-out;
+    position: fixed;
+    opacity: 1;
+    visibility: hidden;
+    border-radius: 50%;
+    width: 100%;
+    background: linear-gradient(90deg, #222ec1, #9e70e8, #e870be);
+    transform: scale3d(0, 0, 0); }
+  .navbar .menu .menu-content {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.5s ease;
+    transition-delay: 0s; }
+  .navbar .menu input {
+    width: 76px;
+    height: 76px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer; }
+  .navbar .menu nav ul {
+    list-style-type: none;
+    text-align: center;
+    padding: 0; }
+    .navbar .menu nav ul li {
+      margin-bottom: 10px; }
+  .navbar .menu nav a {
+    color: white;
+    font-size: 4vh;
+    line-height: 8vh;
+    text-decoration: none;
+    display: inline-block;
+    position: relative; }
+    .navbar .menu nav a:after {
+      height: 3px;
+      display: block;
+      background: #c530b8;
+      content: '';
+      width: 0;
+      transition: all 0.5s ease;
+      transform: translateX(-10px);
+      position: absolute;
+      top: 52%; }
+    .navbar .menu nav a:hover {
+      text-decoration: none; }
+      .navbar .menu nav a:hover:after {
+        width: calc(100% + 20px); }
+  .navbar .hamburger {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    width: 76px;
+    height: 76px;
+    padding: 29px 25px;
+    background: white;
+    transition: all 0.2s ease-in-out; }
+    .navbar .hamburger > span {
+      width: 26px;
+      height: 3px;
+      margin-bottom: 5px;
+      background: black;
+      display: block; }
+
+@keyframes fadeInRight {
+  0% { }
+  50% { }
+  100% { } }
