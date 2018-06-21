@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using Blog.Core.Repository;
 using System.Data.SqlClient;
+using Blog.Persistance.Repository;
 
 namespace Blog.Persistance
 {

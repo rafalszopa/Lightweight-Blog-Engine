@@ -4,7 +4,7 @@ using Blog.Core.Repository;
 using Blog.Persistance.Queries;
 using Dapper;
 
-namespace Blog.Persistance
+namespace Blog.Persistance.Repository
 {
     public class PostTagsRepository : IPostTagsRepository
     {

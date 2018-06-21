@@ -7,7 +7,7 @@ using System.Linq;
 using Blog.Core.Models;
 
 // TO DO: fix namespace
-namespace Blog.Persistance
+namespace Blog.Persistance.Repository
 {
     public class TagRepository : ITagRepository
     {

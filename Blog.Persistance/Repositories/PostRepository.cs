@@ -7,7 +7,7 @@ using Dapper;
 using Blog.Persistance.Queries;
 using System.Linq;
 
-namespace Blog.Persistance
+namespace Blog.Persistance.Repository
 {
     public class PostRepository : IPostRepository
     {

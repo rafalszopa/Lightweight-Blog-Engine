@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace Blog.Persistance
+namespace Blog.Persistance.Repository
 {
     public class UserRepository : IUserRepository
     {

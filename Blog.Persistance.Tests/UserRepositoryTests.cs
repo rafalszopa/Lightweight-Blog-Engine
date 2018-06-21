@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System.Data;
 using System.IO;
 using System.Linq;
+using Blog.Persistance.Repository;
 
 namespace Blog.Persistance.Tests
 {
