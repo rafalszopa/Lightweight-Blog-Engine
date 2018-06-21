@@ -20,6 +20,7 @@ namespace Blog.Persistance
             this.transaction = transaction;
         }
 
+        // Returns id of inserted record or -1 if record already exists
         public int Add(Tag tag)
         {
             int tagId = this.connection.ExecuteScalar<int>(TagQuery.Add(), new { TagName = tag.Name }, this.transaction);

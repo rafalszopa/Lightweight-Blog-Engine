@@ -8,9 +8,16 @@ namespace Blog.Persistance.Queries
         public static string Add()
         {
             string query =
-                @"IF NOT EXISTS(SELECT 1 FROM Tags WHERE Name = @TagName)" +
-                "INSERT INTO Tags(Name, Count) VALUES (@TagName, 0);" +
-                "SELECT CAST(SCOPE_IDENTITY() as int);";
+                @"IF NOT EXISTS(SELECT TOP 1 1 FROM Tags WHERE Name = @TagName)
+                BEGIN
+                    INSERT INTO Tags (Name, Count)
+                    VALUES (@TagName, 0)
+                    SELECT CAST(SCOPE_IDENTITY() as int)
+                END
+                ELSE
+                BEGIN
+                    SELECT -1
+                END";
 
             return query;
         }
@@ -31,7 +38,7 @@ namespace Blog.Persistance.Queries
         public static string GetTagByName()
         {
             string query = 
-                @"SELECT Name, Count 
+                @"SELECT Id, Name, Count 
                 FROM Tags 
                 WHERE Name = @TagName;";
 
