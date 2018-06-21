@@ -1,4 +1,5 @@
-﻿using Blog.Core.Models;
+﻿using Blog.Core;
+using Blog.Core.Models;
 using Blog.Core.Repository;
 using NUnit.Framework;
 using System;
@@ -16,6 +17,8 @@ namespace Blog.Persistance.Tests
 
         private IDbConnection connection;
 
+        private IUnityOfWork unitOfWork;
+
         private string populateTestData;
 
         private IPostRepository postRepository;
@@ -31,13 +34,15 @@ namespace Blog.Persistance.Tests
         public PostRepositoryTests()
         {
             // TO DO: Extract below to separate class
-            this.connection = ConnectionFactory.Get;
-            this.transaction = this.connection.BeginTransaction();
+
+            //this.transaction = this.connection.BeginTransaction();
+            this.unitOfWork = new UnityOfWork("fake");
+
 
             this.populateTestData = File.ReadAllText(@"E:\Projects\lightweight-blog-engine\Blog.Persistance.Tests\SqlScripts\PopulateTestData.sql");
 
-            this.postRepository = new PostRepository(this.transaction);
-            this.tagRepository = new TagRepository(this.transaction);
+            //this.postRepository = new PostRepository(this.transaction);
+            //this.tagRepository = new TagRepository(this.transaction);
 
             this.teslaUser = new User
                 (1, "Nikola", "Tesla", DateTime.Parse("2000-01-01"), "nikola@tesla.com", "Electrical engineer and inventor", UserType.Author, true);
@@ -55,7 +60,9 @@ namespace Blog.Persistance.Tests
                 new List<Tag>()
                 {
                     new Tag("programming"),
-                    new Tag("C#")
+                    new Tag("C#"),
+                    new Tag("A"),
+                    new Tag("B")
                 },
                 new PostDetails()
                 {
@@ -74,8 +81,33 @@ namespace Blog.Persistance.Tests
         [Test]
         public void InsertAndThenSelectPost_CorrectPost_ShouldPopulatePostInDatabaseAndThenReturn()
         {
+            int postId = 0;
             // Arrange
-            var postId = this.postRepository.AddPost(this.correctPost);
+            using (var uow = new UnityOfWork("ww"))
+            {
+                postId = uow.PostRepository.AddPost(this.correctPost);
+                uow.PostRepository.AddPostDetails(postId, this.correctPost.Details);
+
+                for (int i = 0; i < this.correctPost.Tags.Count; i++)
+                {
+                    var tag = this.correctPost.Tags[i];
+                    var tagId = uow.TagRepository.Add(tag);
+
+                    var myTag = uow.TagRepository.GetByName(tag.Name);
+
+                    // Wrong condition
+                    if (tagId > 0)
+                    {
+                        //tag = new Tag(tagId, tag.Name);
+                        tag = myTag.Clone() as Tag;
+                        uow.PostTagsRepository.Add(postId, tag);
+                    }
+                }
+
+                uow.Commit();
+            }
+
+            //var postId = this.postRepository.AddPost(this.correctPost);
 
             // Act
             var resultPost = this.postRepository.GetFullPostById(postId);
