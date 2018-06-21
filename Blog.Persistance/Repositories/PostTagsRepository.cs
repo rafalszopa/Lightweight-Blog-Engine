@@ -17,15 +17,15 @@ namespace Blog.Persistance
             this.transaction = transaction;
         }
 
-        public int Add(int postId, Tag tag)
+        public int Add(int postId, int tagId)
         {
-            var affectedRows = this.connection.ExecuteScalar<int>(PostTagsQuery.Add(), new { PostId = postId, TagId = tag.Id }, this.transaction);
+            var affectedRows = this.connection.ExecuteScalar<int>(PostTagsQuery.Add(), new { PostId = postId, TagId = tagId }, this.transaction);
             return affectedRows;
         }
 
-        public int Delete(int postId, Tag tag)
+        public int Delete(int postId, int tagId)
         {
-            var affectedRows = this.connection.ExecuteScalar<int>(PostTagsQuery.Delete(), new { PostId = postId, TagId = tag.Id }, this.transaction);
+            var affectedRows = this.connection.ExecuteScalar<int>(PostTagsQuery.Delete(), new { PostId = postId, TagId = tagId }, this.transaction);
             return affectedRows;
         }
     }

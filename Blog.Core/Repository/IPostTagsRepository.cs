@@ -4,8 +4,8 @@ namespace Blog.Core.Repository
 {
     public interface IPostTagsRepository
     {
-        int Add(int postId, Tag tag);
+        int Add(int postId, int tagId);
 
-        int Delete(int postId, Tag tag);
+        int Delete(int postId, int tagId);
     }
 }
