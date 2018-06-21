@@ -100,7 +100,7 @@ namespace Blog.Persistance.Tests
                     {
                         //tag = new Tag(tagId, tag.Name);
                         tag = myTag.Clone() as Tag;
-                        uow.PostTagsRepository.Add(postId, tag);
+                        uow.PostTagsRepository.Add(postId, tagId);
                     }
                 }
 
