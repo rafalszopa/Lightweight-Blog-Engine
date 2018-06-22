@@ -48,9 +48,9 @@ namespace Blog.Persistance.Queries
         public static string GetTagsByPostId()
         {
             string query =
-                @"SELECT Tags.Name, Tags.Count
+                @"SELECT Tags.Id, Tags.Name, Tags.Count
                 FROM Post_Tag
-                INNER JOIN Tags ON Post_Tag.Tag = Tags.Name
+                INNER JOIN Tags ON Post_Tag.TagId = Tags.Id
                 WHERE PostId = @PostId;";
 
             return query;
