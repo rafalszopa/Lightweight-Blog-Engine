@@ -112,7 +112,8 @@ namespace Blog.Persistance.Repository
 
         public IEnumerable<Post> GetAll()
         {
-            throw new NotImplementedException();
+            var posts = this.connection.Query<Post>("SELECT * FROM Posts WHERE Id = @Id1 OR Id = @Id2;", new { Id1 = 1, Id2 = 2 }, this.transaction);
+            return posts;
         }
     }
 }
