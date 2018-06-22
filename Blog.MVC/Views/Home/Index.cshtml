@@ -1,4 +1,6 @@
-﻿<div class="board">
+﻿@model IEnumerable<Blog.Core.Models.Post>
+
+<div class="board">
     <div class="board__left">
         <div class="board__thumbnail" style="background: url('../images/red.png')"></div>
         <h2 class="board__headline">
@@ -94,3 +96,10 @@
         </div>
     </div>
 </div>
+
+<ul>
+    @foreach(var post in Model)
+    {
+        <li>@post.Title: <pre>@string.Join(" | ",post.Tags.Select(o => o.Name).ToArray())</pre></li>
+    }
+</ul>
