@@ -4,6 +4,7 @@ using System.Data;
 using Blog.Core.Repository;
 using System.Data.SqlClient;
 using Blog.Persistance.Repository;
+using Blog.Persistance.Repositories;
 
 namespace Blog.Persistance
 {
@@ -26,6 +27,8 @@ namespace Blog.Persistance
         private IUserRepository userRepository;
 
         private IPostTagsRepository postTagsRepository;
+
+        private IPostDetailsRepository postDetailsRepository;
 
         private bool disposed;
 
@@ -55,7 +58,7 @@ namespace Blog.Persistance
         {
             get
             {
-                return this.tagRepository ?? (this.tagRepository = new TagRepository(this.transaction)); ;
+                return this.tagRepository ?? (this.tagRepository = new TagRepository(this.transaction));
             }
         }
 
@@ -63,7 +66,7 @@ namespace Blog.Persistance
         {
             get
             {
-                return this.userRepository ?? (this.userRepository = new UserRepository(this.transaction)); ;
+                return this.userRepository ?? (this.userRepository = new UserRepository(this.transaction));
             }
         }
 
@@ -71,7 +74,15 @@ namespace Blog.Persistance
         {
             get
             {
-                return this.postTagsRepository ?? (this.postTagsRepository = new PostTagsRepository(this.transaction)); ;
+                return this.postTagsRepository ?? (this.postTagsRepository = new PostTagsRepository(this.transaction));
+            }
+        }
+
+        public IPostDetailsRepository PostDetailsRepository
+        {
+            get
+            {
+                return this.postDetailsRepository ?? (this.postDetailsRepository = new PostDetailsRepository(this.transaction));
             }
         }
 
@@ -100,6 +111,7 @@ namespace Blog.Persistance
             this.tagRepository = null;
             this.userRepository = null;
             this.postTagsRepository = null;
+            this.postDetailsRepository = null;
         }
 
         public void Dispose()

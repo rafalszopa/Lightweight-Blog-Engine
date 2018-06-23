@@ -94,6 +94,7 @@ CREATE TABLE [dbo].[Posts](
 CREATE TABLE [dbo].[PostDetails](
 	[PostId]		int					NOT NULL,
 	[Content]		text				NULL,
+	[Type]			int					NULL,
 	CONSTRAINT [FK_PostsDetails_Post] FOREIGN KEY ([PostId]) REFERENCES [dbo].[Posts]([Id]),
 )
 

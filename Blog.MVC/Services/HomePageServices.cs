@@ -15,6 +15,18 @@ namespace Blog.MVC.Services
             /*his.unitOfWork = new UnityOfWork("connectionString");*/
         }
 
+        public Post Foo()
+        {
+            using (var unitOfWork = new UnityOfWork("connectionString"))
+            {
+                var post = unitOfWork.PostRepository.GetById(1);
+                post.Tags = unitOfWork.TagRepository.GetTagsByPostId(1).ToList();
+                post.Details = unitOfWork.PostDetailsRepository.GetById(1);
+
+                return post;
+            }
+        }
+
         public IEnumerable<Post> GetPosts()
         {
             using (var unitOfWork = new UnityOfWork("connectionString"))

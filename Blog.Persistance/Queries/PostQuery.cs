@@ -25,7 +25,7 @@ namespace Blog.Persistance.Queries
             string query =
                 @"INSERT INTO PostDetails (PostId, Content)
                 VALUES (@PostId, @Content);
-                SELECT @@ROWCOUNT;;";
+                SELECT @@ROWCOUNT;";
 
             return query;
         }
@@ -57,7 +57,7 @@ namespace Blog.Persistance.Queries
         public static string GetPostDetails()
         {
             string query =
-                @"SELECT Content
+                @"SELECT Content, Type
                 FROM PostDetails
                 WHERE PostId = @PostId;";
 
@@ -84,7 +84,7 @@ namespace Blog.Persistance.Queries
             string query = 
                 @"SELECT Tags.Name, Tags.Count
                 FROM Post_Tag
-                JOIN Tags ON Post_Tag.Tag = Tags.Name
+                JOIN Tags ON Post_Tag.TagId = Tags.Id
                 WHERE Post_Tag.PostId = @PostId;";
 
             return query;

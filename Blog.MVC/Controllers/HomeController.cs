@@ -11,7 +11,8 @@ namespace Blog.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHomePageServices homePageService;
+        //private readonly IHomePageServices homePageService;
+        private readonly HomePageServices homePageService;
 
         public HomeController()
         {
@@ -27,7 +28,8 @@ namespace Blog.MVC.Controllers
 
         public IActionResult About()
         {
-            return View();
+            var post = this.homePageService.Foo();
+            return View(post);
         }
 
         public IActionResult Posts()

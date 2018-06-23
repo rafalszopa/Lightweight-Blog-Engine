@@ -2,13 +2,12 @@
 {
     public class PostDetails
     {
-        public int PostDetailsId { get; set; }
+        //public int PostDetailsId { get; private set; }
 
         public string Content { get; set; }
 
-        public PostDetails()
-        {
+        public ContentType Type { get; set; }
 
-        }
+        public PostDetails() { }
     }
 }

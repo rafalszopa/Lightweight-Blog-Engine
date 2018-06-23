@@ -87,12 +87,12 @@ namespace Blog.Persistance.Repository
 
         public Post GetById(int id)
         {
-            using (IDbConnection connection = ConnectionFactory.Get)
-            {
+            string query =
+                @"SELECT Id, Title, Description, CreateDate, PublishDate, PhotoUrl, StatusId FROM Posts WHERE Id = @PostId;";
 
-            }
+            var post = this.connection.Query<Post>(query, new { @PostId = id }, this.transaction).FirstOrDefault();
 
-            return null;
+            return post;
         }
 
         public void Delete(int id)
