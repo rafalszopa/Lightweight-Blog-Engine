@@ -113,6 +113,7 @@ namespace Blog.Persistance.Tests
                 postFilter.CreatedOn.Between(DateTime.MinValue, DateTime.MaxValue);
                 postFilter.Status.EqualTo((int)PostStatus.Draft);
                 postFilter.AuthorId.NotEqualTo((int)UserType.Admin);
+                postFilter.Title.Like("Part 1%");
 
                 uow.PostRepository.Find(postFilter);
 

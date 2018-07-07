@@ -10,7 +10,7 @@ namespace Blog.Core.Repository
 
         Post FindById(int postId);
 
-        IEnumerable<Post> Find(PostFilter postFilter);
+        IEnumerable<Post> Find(PostFilter filter);
                 
         void Delete(int postId);
 

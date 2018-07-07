@@ -7,27 +7,12 @@ namespace Blog.Persistance.Queries
 {
     public static class PostQuery
     {
-        public static string GetFullPost()
-        {
-            return GetPost() + GetPostTags() + GetPostDetails() + GetPostDetails();
-        }
-
         public static string AddPost()
         {
             string query = 
                 @"INSERT INTO Posts (Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId)
                 VALUES (@Title, @Description, @CreateDate, @PublishDate, @PhotoUrl, @UserId, @Status)
                 SELECT CAST(SCOPE_IDENTITY() as int);";
-
-            return query;
-        }
-
-        public static string AddPostDetails()
-        {
-            string query =
-                @"INSERT INTO PostDetails (PostId, Content)
-                VALUES (@PostId, @Content);
-                SELECT @@ROWCOUNT;";
 
             return query;
         }
@@ -51,16 +36,6 @@ namespace Blog.Persistance.Queries
                 WHERE Id = @PostId;
                 UPDATE PostDetails
                 SET Content = @Content
-                WHERE PostId = @PostId;";
-
-            return query;
-        }
-        
-        public static string GetPostDetails()
-        {
-            string query =
-                @"SELECT Content, Type
-                FROM PostDetails
                 WHERE PostId = @PostId;";
 
             return query;
@@ -99,59 +74,62 @@ namespace Blog.Persistance.Queries
             return query;
         }
 
-        public static string GetFilters(PostFilter filter)
-        {
-            var query = new StringBuilder();
 
-            query.Append("WHERE 1 = 1");
+        // FILTERS
+        // TO BE MOVED TO SEPARATE CLASS
+        //public static string GetFilters(PostFilter filter)
+        //{
+        //    var query = new StringBuilder();
 
-            if (filter.Id.Operator != IntegerColumn.Operators.None)
-            {
-                if (filter.Id.Operator == IntegerColumn.Operators.In)
-                {
-                    query.Append($" AND {filter.Id.Name} IN({string.Join(",", filter.Id.Range)})");
-                }
-                else
-                {
-                    query.Append($" AND {filter.Id.Name} {GetOperator(filter.Id.Operator)} {filter.Id.Value}");
-                }
-            }
+        //    query.Append("WHERE 1 = 1");
 
-            if (filter.AuthorId.Operator != IntegerColumn.Operators.None)
-            {
-                if (filter.AuthorId.Operator == IntegerColumn.Operators.In)
-                {
-                    query.Append($" AND {filter.AuthorId.Name} IN({string.Join(",", filter.AuthorId.Range)})");
-                }
-                else
-                {
-                    query.Append($" AND {filter.AuthorId.Name} {GetOperator(filter.AuthorId.Operator)} {filter.AuthorId.Value}");
-                }
-            }
+        //    if (filter.Id.Operator != IntegerColumn.Operators.None)
+        //    {
+        //        if (filter.Id.Operator == IntegerColumn.Operators.In)
+        //        {
+        //            query.Append($" AND {filter.Id.Name} IN({string.Join(",", filter.Id.Range)})");
+        //        }
+        //        else
+        //        {
+        //            query.Append($" AND {filter.Id.Name} {GetOperator(filter.Id.Operator)} {filter.Id.Value}");
+        //        }
+        //    }
 
-            if (filter.Title != null)
-            {
-                if (filter.Title.Operator == TextColumn.Operators.In)
-                {
-                    query.Append($" AND Title IN('{string.Join(",", filter.Title.Range)}')");
-                }
-                else
-                {
-                    query.Append($" AND Title {GetOperator(filter.Title.Operator)} '{filter.Title.Value}'");
-                }
-            }
+        //    if (filter.AuthorId.Operator != IntegerColumn.Operators.None)
+        //    {
+        //        if (filter.AuthorId.Operator == IntegerColumn.Operators.In)
+        //        {
+        //            query.Append($" AND {filter.AuthorId.Name} IN({string.Join(",", filter.AuthorId.Range)})");
+        //        }
+        //        else
+        //        {
+        //            query.Append($" AND {filter.AuthorId.Name} {GetOperator(filter.AuthorId.Operator)} {filter.AuthorId.Value}");
+        //        }
+        //    }
 
-            if (filter.Status != null)
-            {
-                if (filter.Status.Operator == IntegerColumn.Operators.In)
-                {
-                    query.Append($" AND {filter.Status.Name} IN({string.Join(",", filter.Status.Range)})");
-                }
-                else
-                {
-                    query.Append($" AND {filter.Status.Name} {GetOperator(filter.Status.Operator)} {filter.Status.Value}");
-                }
-            }
+        //    if (filter.Title != null)
+        //    {
+        //        if (filter.Title.Operator == TextColumn.Operators.In)
+        //        {
+        //            query.Append($" AND Title IN('{string.Join(",", filter.Title.Range)}')");
+        //        }
+        //        else
+        //        {
+        //            query.Append($" AND Title {GetOperator(filter.Title.Operator)} '{filter.Title.Value}'");
+        //        }
+        //    }
+
+        //    if (filter.Status != null)
+        //    {
+        //        if (filter.Status.Operator == IntegerColumn.Operators.In)
+        //        {
+        //            query.Append($" AND {filter.Status.Name} IN({string.Join(",", filter.Status.Range)})");
+        //        }
+        //        else
+        //        {
+        //            query.Append($" AND {filter.Status.Name} {GetOperator(filter.Status.Operator)} {filter.Status.Value}");
+        //        }
+        //    }
 
             //if (filter.Status != null)
             //{
@@ -165,82 +143,9 @@ namespace Blog.Persistance.Queries
             //    }
             //}
 
-            return query.ToString();
-        }
+        //    return query.ToString();
+        //}
 
-        public static string GetOperator(IntegerColumn.Operators @operator)
-        {
-            var result = string.Empty;
 
-            switch (@operator)
-            {
-                case IntegerColumn.Operators.EqualTo:
-                    result = "=";
-                    break;
-                case IntegerColumn.Operators.GreaterThan:
-                    result = ">";
-                    break;
-                case IntegerColumn.Operators.GreaterThanOrEqualTo:
-                    result = ">=";
-                    break;
-                case IntegerColumn.Operators.In:
-                    result = "IN";
-                    break;
-                case IntegerColumn.Operators.LessThanOrEqualTo:
-                    result = "<=";
-                    break;
-                case IntegerColumn.Operators.LessThan:
-                    result = "<";
-                    break;
-                case IntegerColumn.Operators.NotEqualTo:
-                    result = "<>";
-                    break;
-            }
-
-            return result;
-        }
-
-        public static string GetOperator(TextColumn.Operators @operator)
-        {
-            var result = string.Empty;
-
-            switch (@operator)
-            {
-                case TextColumn.Operators.In:
-                    result = "IN";
-                    break;
-                case TextColumn.Operators.Like:
-                    result = "LIKE";
-                    break;
-                case TextColumn.Operators.NotLike:
-                    result = "NOT LIKE";
-                    break;
-            }
-
-            return result;
-        }
-
-        public static string GetOperator(DateColumn.Operators @operator)
-        {
-            var result = string.Empty;
-
-            switch (@operator)
-            {
-                case DateColumn.Operators.In:
-                    result = "IN";
-                    break;
-                case DateColumn.Operators.Between:
-                    result = "BETWEEN";
-                    break;
-                case DateColumn.Operators.Like:
-                    result = "LIKE";
-                    break;
-                case DateColumn.Operators.NotLike:
-                    result = "NOT LIKE";
-                    break;
-            }
-
-            return result;
-        }
     }
 }
