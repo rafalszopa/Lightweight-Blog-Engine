@@ -8,6 +8,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using Blog.Persistance.Repository;
+using Blog.Core.Repository.Filters;
 
 namespace Blog.Persistance.Tests
 {
@@ -86,139 +87,175 @@ namespace Blog.Persistance.Tests
             // Arrange
             using (var uow = new UnityOfWork("ww"))
             {
-                postId = uow.PostRepository.AddPost(this.correctPost);
-                uow.PostRepository.AddPostDetails(postId, this.correctPost.Details);
+                //var filter = new PostFilter()
+                //{
+                //    id = 1,
+                //    authorId = 2,
+                //    Title = "dndind%",
+                //    Status = PostStatus.Live,
+                //    CreatedOn = new PostFilter.TimePeriod() { From = DateTime.Today, To = DateTime.Today },
+                //    PublishedOn = new PostFilter.TimePeriod() { From = DateTime.Today, To = DateTime.Today }
+                //};
+                
 
-                for (int i = 0; i < this.correctPost.Tags.Count; i++)
-                {
-                    var tag = this.correctPost.Tags[i];
-                    var tagId = uow.TagRepository.Add(tag);
+                //var filter = new PostFilter();
+                //filter.Id.In(new int[] { 1, 2, 3, 4, 5, 6 });
+                //filter.Title.Like("sinsin%");
 
-                    var myTag = uow.TagRepository.GetByName(tag.Name);
+                //filter.PublishedOn.Between(DateTime.MinValue, DateTime.MaxValue);
+                //filter.PublishedOn.Like(DateTime.Now, DateTime.MaxValue);
+                //filter.CreatedOn.In(new DateTime[] { DateTime.Now, DateTime.MinValue, DateTime.MaxValue });
 
-                    // Wrong condition
-                    if (tagId > 0)
-                    {
-                        //tag = new Tag(tagId, tag.Name);
-                        tag = myTag.Clone() as Tag;
-                        uow.PostTagsRepository.Add(postId, tagId);
-                    }
-                }
 
-                uow.Commit();
+                var postFilter = new PostFilter();
+
+                postFilter.Id.EqualTo(1);
+                postFilter.CreatedOn.Between(DateTime.MinValue, DateTime.MaxValue);
+                postFilter.Status.EqualTo((int)PostStatus.Draft);
+                postFilter.AuthorId.NotEqualTo((int)UserType.Admin);
+
+                uow.PostRepository.Find(postFilter);
+
+                //filter.Id = new IntegerFilter(1, ComparisonOperators.EqualTo);
+                //filter.CreatedOn = new DateFilter(DateTime.Today, DateTime.Today, LogicalOperators.Between);
+                //filter.Status = new IntegerFilter(2, ComparisonOperators.EqualTo);
+                //filter.AuthorId = new IntegerFilter(2, ComparisonOperators.NotEqualTo);
+                //uow.PostRepository.Find(filter);
+
+
+                //postId = uow.PostRepository.AddPost(this.correctPost);
+                //uow.PostRepository.AddPostDetails(postId, this.correctPost.Details);
+
+                //for (int i = 0; i < this.correctPost.Tags.Count; i++)
+                //{
+                //    var tag = this.correctPost.Tags[i];
+                //    var tagId = uow.TagRepository.Add(tag);
+
+                //    var myTag = uow.TagRepository.GetByName(tag.Name);
+
+                //    // Wrong condition
+                //    if (tagId > 0)
+                //    {
+                //        //tag = new Tag(tagId, tag.Name);
+                //        tag = myTag.Clone() as Tag;
+                //        uow.PostTagsRepository.Add(postId, tagId);
+                //    }
+                //}
+
+                //uow.Commit();
             }
 
             //var postId = this.postRepository.AddPost(this.correctPost);
 
             // Act
-            var resultPost = this.postRepository.GetFullPostById(postId);
+            //var resultPost = this.postRepository.GetFullPostById(postId);
 
-            // Assert
-            Assert.AreEqual(postId, resultPost.Id);
-            Assert.AreEqual(this.correctPost.Title, resultPost.Title);
-            Assert.AreEqual(this.correctPost.Description, resultPost.Description);
-            Assert.AreEqual(this.correctPost.Status, resultPost.Status);
-            Assert.AreEqual(this.correctPost.CreateDate, resultPost.CreateDate);
-            Assert.AreEqual(this.correctPost.PublishDate, resultPost.PublishDate);
-            Assert.AreEqual(this.correctPost.PhotoUrl, resultPost.PhotoUrl);
-            Assert.AreEqual(this.correctPost.Details.Content, resultPost.Details.Content);
-            Assert.AreEqual(this.correctPost.Tags[0].Name, resultPost.Tags[0].Name);
-            Assert.AreEqual(this.correctPost.Tags[0].Count, resultPost.Tags[0].Count);
-            Assert.AreEqual(this.correctPost.Tags[1].Name, resultPost.Tags[1].Name);
-            Assert.AreEqual(this.correctPost.Tags[1].Count, resultPost.Tags[1].Count);
-            Assert.AreEqual(this.correctPost.Details.Content, resultPost.Details.Content);
-            Assert.AreEqual(this.correctPost.Details.Content, resultPost.Details.Content);
-            Assert.AreEqual(this.correctPost.Author.FirstName, resultPost.Author.FirstName);
-            Assert.AreEqual(this.correctPost.Author.LastName, resultPost.Author.LastName);
-            Assert.AreEqual(this.correctPost.Author.Email, resultPost.Author.Email);
-            Assert.AreEqual(this.correctPost.Author.Bio, resultPost.Author.Bio);
-            Assert.AreEqual(this.correctPost.Author.Type, resultPost.Author.Type);
+            //// Assert
+            //Assert.AreEqual(postId, resultPost.Id);
+            //Assert.AreEqual(this.correctPost.Title, resultPost.Title);
+            //Assert.AreEqual(this.correctPost.Description, resultPost.Description);
+            //Assert.AreEqual(this.correctPost.Status, resultPost.Status);
+            //Assert.AreEqual(this.correctPost.CreateDate, resultPost.CreateDate);
+            //Assert.AreEqual(this.correctPost.PublishDate, resultPost.PublishDate);
+            //Assert.AreEqual(this.correctPost.PhotoUrl, resultPost.PhotoUrl);
+            //Assert.AreEqual(this.correctPost.Details.Content, resultPost.Details.Content);
+            //Assert.AreEqual(this.correctPost.Tags[0].Name, resultPost.Tags[0].Name);
+            //Assert.AreEqual(this.correctPost.Tags[0].Count, resultPost.Tags[0].Count);
+            //Assert.AreEqual(this.correctPost.Tags[1].Name, resultPost.Tags[1].Name);
+            //Assert.AreEqual(this.correctPost.Tags[1].Count, resultPost.Tags[1].Count);
+            //Assert.AreEqual(this.correctPost.Details.Content, resultPost.Details.Content);
+            //Assert.AreEqual(this.correctPost.Details.Content, resultPost.Details.Content);
+            //Assert.AreEqual(this.correctPost.Author.FirstName, resultPost.Author.FirstName);
+            //Assert.AreEqual(this.correctPost.Author.LastName, resultPost.Author.LastName);
+            //Assert.AreEqual(this.correctPost.Author.Email, resultPost.Author.Email);
+            //Assert.AreEqual(this.correctPost.Author.Bio, resultPost.Author.Bio);
+            //Assert.AreEqual(this.correctPost.Author.Type, resultPost.Author.Type);
         }
 
-        [Test]
-        public void InsertPost_InsertIncorrectPost_ShouldThrowException()
-        {
+        //[Test]
+        //public void InsertPost_InsertIncorrectPost_ShouldThrowException()
+        //{
 
-        }
+        //}
 
-        [Test]
-        public void InsertPost_ShouldIncreaseTagsCount()
-        {
-            // Arrange
-            var tags = this.tagRepository.GetAll();
-            Assert.AreEqual(4, tags.Count());
-            Assert.AreEqual(1, tags.Where(o => o.Name == "agile").Select(o => o.Count));
-            Assert.AreEqual(1, tags.Where(o => o.Name == "javascript").Select(o => o.Count));
-            Assert.AreEqual(1, tags.Where(o => o.Name == "programming").Select(o => o.Count));
-            Assert.AreEqual(1, tags.Where(o => o.Name == "vue.js").Select(o => o.Count));
+        //[Test]
+        //public void InsertPost_ShouldIncreaseTagsCount()
+        //{
+        //    // Arrange
+        //    var tags = this.tagRepository.GetAll();
+        //    Assert.AreEqual(4, tags.Count());
+        //    Assert.AreEqual(1, tags.Where(o => o.Name == "agile").Select(o => o.Count));
+        //    Assert.AreEqual(1, tags.Where(o => o.Name == "javascript").Select(o => o.Count));
+        //    Assert.AreEqual(1, tags.Where(o => o.Name == "programming").Select(o => o.Count));
+        //    Assert.AreEqual(1, tags.Where(o => o.Name == "vue.js").Select(o => o.Count));
 
-            // Act
-            this.postRepository.AddPost(this.correctPost);
-            tags = this.tagRepository.GetAll();
+        //    // Act
+        //    this.postRepository.AddPost(this.correctPost);
+        //    tags = this.tagRepository.GetAll();
 
-            // Assert
-            Assert.AreEqual(5, tags.Count());
-            Assert.AreEqual(2, tags.Where(o => o.Name == "programming").Select(o => o.Count));
-            Assert.AreEqual(1, tags.Where(o => o.Name == "C#").Select(o => o.Count));
-        }
+        //    // Assert
+        //    Assert.AreEqual(5, tags.Count());
+        //    Assert.AreEqual(2, tags.Where(o => o.Name == "programming").Select(o => o.Count));
+        //    Assert.AreEqual(1, tags.Where(o => o.Name == "C#").Select(o => o.Count));
+        //}
 
-        [Test]
-        public void UpdatePost_ShouldDecreaseTagsCount()
-        {
-            // Arrange
-            var post = this.postRepository.GetById(1);
-            var tags = this.tagRepository.GetAll();
-            Assert.AreEqual(4, tags.Count());
-            Assert.AreEqual(1, tags.Where(o => o.Name == "agile").Select(o => o.Count));
-            Assert.AreEqual(1, tags.Where(o => o.Name == "javascript").Select(o => o.Count));
-            Assert.AreEqual(1, tags.Where(o => o.Name == "programming").Select(o => o.Count));
-            Assert.AreEqual(1, tags.Where(o => o.Name == "vue.js").Select(o => o.Count));
+        //[Test]
+        //public void UpdatePost_ShouldDecreaseTagsCount()
+        //{
+        //    // Arrange
+        //    var post = this.postRepository.GetById(1);
+        //    var tags = this.tagRepository.GetAll();
+        //    Assert.AreEqual(4, tags.Count());
+        //    Assert.AreEqual(1, tags.Where(o => o.Name == "agile").Select(o => o.Count));
+        //    Assert.AreEqual(1, tags.Where(o => o.Name == "javascript").Select(o => o.Count));
+        //    Assert.AreEqual(1, tags.Where(o => o.Name == "programming").Select(o => o.Count));
+        //    Assert.AreEqual(1, tags.Where(o => o.Name == "vue.js").Select(o => o.Count));
 
-            // Act
-            post.Tags.RemoveAt(0);
-            this.postRepository.Update(post);
-            tags = this.tagRepository.GetAll();
+        //    // Act
+        //    post.Tags.RemoveAt(0);
+        //    this.postRepository.Update(post);
+        //    tags = this.tagRepository.GetAll();
 
-            Assert.AreEqual(3, tags.Count());
-            Assert.AreEqual(null, tags.Where(o => o.Name == "agile"));
-        }
+        //    Assert.AreEqual(3, tags.Count());
+        //    Assert.AreEqual(null, tags.Where(o => o.Name == "agile"));
+        //}
 
-        [Test]
-        public void UpdatePost_RemoveAllTags_ShouldRemove()
-        {
-            // Arrange
-            var post = this.postRepository.GetFullPostById(1);
-            Assert.AreEqual(4, post.Tags.Count);
-            post.Tags = new List<Tag>();
+        //[Test]
+        //public void UpdatePost_RemoveAllTags_ShouldRemove()
+        //{
+        //    // Arrange
+        //    var post = this.postRepository.GetFullPostById(1);
+        //    Assert.AreEqual(4, post.Tags.Count);
+        //    post.Tags = new List<Tag>();
 
-            // Act
-            this.postRepository.Update(post);
-            var result = this.postRepository.GetFullPostById(1);
+        //    // Act
+        //    this.postRepository.Update(post);
+        //    var result = this.postRepository.GetFullPostById(1);
 
-            // Assert
-            Assert.AreEqual(0, result.Tags.Count);
-        }
+        //    // Assert
+        //    Assert.AreEqual(0, result.Tags.Count);
+        //}
 
-        [Test]
-        public void UpdatePost_ShouldUpdatePost()
-        {
-            // Arrange
-            const string updatedValue = "updated value";
-            const PostStatus updatedStatus = PostStatus.Draft;
-            this.correctPost.Id = 1;
-            this.correctPost.Title = updatedValue;
-            this.correctPost.PhotoUrl = updatedValue;
-            this.correctPost.Status = updatedStatus;
+        //[Test]
+        //public void UpdatePost_ShouldUpdatePost()
+        //{
+        //    // Arrange
+        //    const string updatedValue = "updated value";
+        //    const PostStatus updatedStatus = PostStatus.Draft;
+        //    this.correctPost.Id = 1;
+        //    this.correctPost.Title = updatedValue;
+        //    this.correctPost.PhotoUrl = updatedValue;
+        //    this.correctPost.Status = updatedStatus;
 
-            // Act
-            this.postRepository.Update(this.correctPost);
-            var result = this.postRepository.GetFullPostById(1);
+        //    // Act
+        //    this.postRepository.Update(this.correctPost);
+        //    var result = this.postRepository.GetFullPostById(1);
 
-            // Assert
-            Assert.AreEqual(updatedValue, result.Title);
-            Assert.AreEqual(updatedValue, result.PhotoUrl);
-            // Author must not be updated
-            Assert.AreNotEqual(this.correctPost.Author.FirstName, result.Author.FirstName);
-        }
+        //    // Assert
+        //    Assert.AreEqual(updatedValue, result.Title);
+        //    Assert.AreEqual(updatedValue, result.PhotoUrl);
+        //    // Author must not be updated
+        //    Assert.AreNotEqual(this.correctPost.Author.FirstName, result.Author.FirstName);
+        //}
     }
 }

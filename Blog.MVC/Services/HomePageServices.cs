@@ -19,7 +19,7 @@ namespace Blog.MVC.Services
         {
             using (var unitOfWork = new UnityOfWork("connectionString"))
             {
-                var post = unitOfWork.PostRepository.GetById(1);
+                var post = unitOfWork.PostRepository.FindById(1);
                 post.Tags = unitOfWork.TagRepository.GetTagsByPostId(1).ToList();
                 post.Details = unitOfWork.PostDetailsRepository.GetById(1);
 
@@ -29,17 +29,18 @@ namespace Blog.MVC.Services
 
         public IEnumerable<Post> GetPosts()
         {
-            using (var unitOfWork = new UnityOfWork("connectionString"))
-            {
-                var posts = unitOfWork.PostRepository.GetAll();
+            //using (var unitOfWork = new UnityOfWork("connectionString"))
+            //{
+            //    var posts = unitOfWork.PostRepository.GetAll();
 
-                foreach(var post in posts)
-                {
-                    post.Tags = unitOfWork.TagRepository.GetTagsByPostId(post.Id).ToList();
-                }
+            //    foreach(var post in posts)
+            //    {
+            //        post.Tags = unitOfWork.TagRepository.GetTagsByPostId(post.Id).ToList();
+            //    }
 
-                return posts;
-            }
+            //    return posts;
+            //}
+            return null;
         }
     }
 
