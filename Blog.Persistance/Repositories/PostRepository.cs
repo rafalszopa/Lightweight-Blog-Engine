@@ -19,7 +19,7 @@ namespace Blog.Persistance.Repository
             this.transaction = transaction;
         }
 
-        public int insertAddPost(Post entity)
+        public int Insert(Post entity)
         {
             throw new NotImplementedException();
         }

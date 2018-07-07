@@ -6,11 +6,11 @@ namespace Blog.Core.Repository
 {
     public interface IPostRepository
     {
-        int insertAddPost(Post entity);
+        int Insert(Post entity);
 
         Post FindById(int postId);
 
-        IEnumerable<Post> Find(PostFilter postFilter, int? take = null, int? skip = null);
+        IEnumerable<Post> Find(PostFilter postFilter);
                 
         void Delete(int postId);
 
