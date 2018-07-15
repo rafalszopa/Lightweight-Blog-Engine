@@ -3,6 +3,12 @@
 USE [Blog.IntegrationTests]
 --GO
 
+-- Drop all views
+IF OBJECT_ID('HomaPageView') IS NOT NULL
+BEGIN
+	DROP TABLE HomePageView
+END
+
 -- Drop all tables
 IF OBJECT_ID('Post_Tag') IS NOT NULL
 BEGIN
@@ -44,6 +50,9 @@ BEGIN
 	DROP TABLE [dbo].[Post_Tag]
 END
 
+-- Create new views
+
+
 -- Create new tables
 CREATE TABLE [dbo].[UserTypes](
 	[UserTypeId]	int IDENTITY(1,1)	NOT NULL,
@@ -66,26 +75,28 @@ CREATE TABLE [dbo].[Users](
 
 CREATE TABLE [dbo].[Tags](
 	[Id]			int	IDENTITY(1,1)	NOT NULL,
-	[Name]			varchar(20)			NOT NULL,
+	[Name]			varchar(20)			NOT NULL	UNIQUE,
 	[Count]			int					NOT NULL
 	PRIMARY KEY CLUSTERED ([Id] ASC)
 )
 
 CREATE TABLE [dbo].[PostStatuses](
 	[PostStatusId]	int IDENTITY(1,1)	NOT NULL,
-	[Status]		varchar(20)			NOT NULL,
+	[Status]		varchar(20)			NOT NULL	UNIQUE,
 	PRIMARY KEY CLUSTERED ([PostStatusId] ASC)
 )
 
 CREATE TABLE [dbo].[Posts](
 	[Id]			int IDENTITY(1,1)	NOT NULL,
+	[Slug]			varchar(100)		NOT NULL	UNIQUE,
 	[Title]			varchar(300)		NOT NULL,
 	[Description]	varchar(500)		NOT NULL,
 	[CreateDate]	datetime			NOT NULL,
 	[PublishDate]	datetime			NULL,
 	[PhotoUrl]		varchar(50)			NULL,
 	[UserId]		int					NOT NULL,
-	[StatusId]		int					NOT NULL
+	[StatusId]		int					NOT NULL,
+	[IsActive]		bit					NOT NULL,
 	PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_Posts_Users] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id]),
 	CONSTRAINT [FK_Posts_PostStatuses] FOREIGN KEY ([StatusId]) REFERENCES [dbo].[PostStatuses]([PostStatusId])

@@ -8,10 +8,16 @@ INSERT [dbo].[UserTypes] (Type) VALUES
 ('Author')
 
 INSERT [dbo].[Users] (FirstName, LastName, Email, Bio, CreateDate, UserTypeId, IsActive) VALUES
-('Nikola', 'Tesla', 'nikola@tesla.com', 'Electrical engineer and inventor', '2000-01-01 00:00:00', 2, 1)
+('Admin', 'Admin', 'admin@admin.com', 'Superuser', '2001-01-01 00:00:00', 1, 1)
+
+INSERT [dbo].[Users] (FirstName, LastName, Email, Bio, CreateDate, UserTypeId, IsActive) VALUES
+('Nikola', 'Tesla', 'nikola@tesla.com', 'Electrical engineer and inventor', '2018-07-13 00:00:00', 2, 1)
 
 INSERT [dbo].[Users] (FirstName, LastName, Email, Bio, CreateDate, UserTypeId, IsActive) VALUES
 ('Albert', 'Einstein', 'albert@einstein.com', 'German born theoretical physicist', '2001-01-01 00:00:00', 2, 1)
+
+INSERT [dbo].[Users] (FirstName, LastName, Email, Bio, CreateDate, UserTypeId, IsActive) VALUES
+('Rafał', 'Szopa', 'rafalszopa.92@gmail.com', 'Fullstack developer in love in design', '2017-03-30 00:00:00', 2, 1)
 
 INSERT [dbo].[PostStatuses] (Status) VALUES 
 ('Live'),
@@ -32,14 +38,16 @@ INSERT [dbo].[Tags] (Name, Count) VALUES
 INSERT [dbo].[Tags] (Name, Count) VALUES 
 ('agile', 0);
 
-INSERT INTO [dbo].[Posts] (Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId) VALUES 
-('What if Kim Jong-Un wants peace?',
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('what-if-kim-jong-un-wants-peace',
+'What if Kim Jong-Un wants peace?',
 'We’ll deliver the best stories and ideas on the topics you care about most straight to your homepage, app, or inbox.',
 '2018-05-20 02:00:00',
 '2018-05-20 02:00:00',
 'content/232/photo.jpg',
-1,
-2)
+2,
+2,
+1)
 
 INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
 (1,
@@ -118,6 +126,230 @@ INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
         </div>
     </div>'
 , 1)
+
+INSERT INTO [dbo].[Posts] (Slug,Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('a-really-bad-month',
+'A Really Bad Month',
+'The legal industry needs to come to terms with its gender bias, unconscious or not',
+'2000-02-20 02:00:00',
+'2018-05-20 02:00:00',
+'content/232/photo.jpg',
+3,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(2, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('how-i-become-talking-head',
+'How I became talking head',
+'I don’t ever network, 28-year-old criminal defense attorney Nicole Fegan',
+'2000-02-20 02:00:00',
+'2018-05-20 02:00:00',
+'content/232/photo.jpg',
+4,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(3, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('24-book-club-the-bitcoin-standard-part-1---critical-review',
+'#24: Book Club: “The Bitcoin Standard” (Part 1) - critical review',
+'A journey into Reality L.A., Hollywood’s hippest evangelical church',
+'2000-02-20 02:00:00',
+'2018-05-20 02:00:00',
+'content/232/photo.jpg',
+4,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(4, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('web-architecture-101',
+'Web Architecture 101',
+'The basic architecture concepts I wish I knew when I was getting started as a web developer',
+'2000-02-20 02:00:00',
+'2018-05-20 02:00:00',
+'content/232/photo.jpg',
+2,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(5, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('the-open-plan-office-is-a-terrible-horrible-no-good-very-bad-idea',
+'The open-plan office is a terrible, horrible, no good, very bad idea',
+'And it’s these managers who are in charge of designing office layouts and signing leases.',
+'2017-03-30 02:00:00',
+'2018-05-20 02:00:00',
+'content/232/photo.jpg',
+3,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(6, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('the-things-men-wish-they-knew-before-they-got-marrie',
+'The Things Men Wish They Knew Before They Got Married',
+'Every wedding season — such as, you know, RIGHT NOW',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+4,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(7, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('with-regulators-wary-facebook-is-poring-over-its-prize-asset-your-face',
+'With Regulators Wary, Facebook Is Poring Over Its Prize Asset: Your Face',
+'Facebook is working to spread its face-matching tools even as it faces heightened scrutiny from regulators and legislators in Europe and North America',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+2,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(8, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('magic-pills-machine-learning-skincare-and-the-future',
+'Magic Pills, Machine-Leaning Skincare, and the Future...',
+'Eight new trends that are revolutionizing...',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+3,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(9, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('the-open-plan-office-is-a-terrible-horrible-no-good-very-bad-idea',
+'The open-plan office is a terrible, horrible, no good, very bad idea',
+'Not because there aren’t people who actually enjoy working in an open office, there are.',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+3,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(10, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('we-have-a-podcast-meet-the-host',
+'We Have a Podcast! Meet the Hosts',
+'Kara Brown and Manoush Zomorodi discuss the power of voice, their favorite books, and fancy pasta',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+2,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(11, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('women-dont-speak-a-different-language',
+'Women Don’t Speak a Different Language',
+'Why you can’t blame gender for your communication problems',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+4,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(12, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('how--i-fully-quit-google-and-you-can-too',
+'How I Fully Quit Google (And You Can, Too)',
+'My enlightening quest to break free of a tech giant',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+4,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(13, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('what-will-we-look-like-in-100-years',
+'What Will We Look Like in 100 Years',
+'It’s good or bad, depending on who you ask',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+3,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(14, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('this-is-how-normal-life-feels-as-a-psychopath',
+'This Is How Normal Life Feels as a Psychopath',
+'Everyday, nonviolent psychopaths say they’re nothing like the psychopath we see on our movie screens',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+4,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(15, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('its-boom-time-for-death-cults',
+'It’s Boom Time for Death Cults',
+'Three very different mortality movements are surging in popularity across the death-denying West',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+2,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(16, '<h1>Hello world</h1>', 1);
+
+INSERT INTO [dbo].[Posts] (Slug, Title, Description, CreateDate, PublishDate, PhotoUrl, UserId, StatusId, IsActive) VALUES 
+('meet-ms-got-proof-the-lebron-james-of-the-legal-world',
+'Meet Ms. Got Proof, the Lebron James of the Legal World',
+'Atlanta attorney Nicole Fegan is changing the gamet',
+'2000-02-20 02:00:00',
+'2014-05-22 02:00:00',
+'content/232/photo.jpg',
+2,
+2,
+1);
+
+INSERT INTO [dbo].[PostDetails] (PostId, Content, Type) VALUES
+(17, '<h1>Hello world</h1>', 1);
 
 INSERT INTO [dbo].[Post_Tag] (PostId, TagId) VALUES
 (1, 1);
