@@ -13,16 +13,12 @@ namespace Blog.MVC.Controllers
         // GET: /<controller>/
         public IActionResult Post(string slug)
         {
-            var result = $"Post: {slug}";
-            return Content(result);
-            //return View();
+            return View("Post");
         }
 
         public IActionResult ListPosts()
         {
-            var result = $"List of all posts...";
-            return Content(result);
-            //return View();
+            return View("ListOfPosts");
         }
     }
 }
