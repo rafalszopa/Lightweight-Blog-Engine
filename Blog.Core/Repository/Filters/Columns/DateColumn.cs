@@ -8,10 +8,8 @@ namespace Blog.Core.Repository.Filters
         public enum Operators
         {
             None = 0,
-            Like = 1,
-            NotLike = 2,
-            Between = 3,
-            In = 4
+            EqualTo = 1,
+            Between = 3
         }
 
         public DateTime Value { get; internal set; }
