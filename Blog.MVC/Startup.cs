@@ -38,14 +38,14 @@ namespace Blog.MVC
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "blog",
-                    template: "blog/{slug:minlength(1)}",
-                    defaults: new { controller = "Blog", action = "Post" });
+                    name: "blog-list-all-posts",
+                    template: "blog/{page:int}",
+                    defaults: new { controller = "Blog", action = "ListPosts", page = 1 });
 
                 routes.MapRoute(
-                    name: "blog-posts",
-                    template: "blog",
-                    defaults: new { controller = "Blog", action = "ListPosts" });
+                    name: "blog",
+                    template: "blog/{slug:minlength(5)}",
+                    defaults: new { controller = "Blog", action = "Post" });
 
                 routes.MapRoute(
                     name: "default",
