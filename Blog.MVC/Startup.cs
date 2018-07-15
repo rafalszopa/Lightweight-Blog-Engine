@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace Blog.MVC
 {
@@ -38,9 +39,19 @@ namespace Blog.MVC
             }
 
             app.UseStaticFiles();
-
+            
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "blog",
+                    template: "blog/{slug:minlength(1)}",
+                    defaults: new { controller = "Blog", action = "Index" });
+
+                routes.MapRoute(
+                    name: "blog-posts",
+                    template: "blog",
+                    defaults: new { controller = "Blog", action = "Posts" });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
