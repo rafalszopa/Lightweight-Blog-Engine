@@ -18,7 +18,7 @@ namespace Blog.Core.Models
 
         public UserType Type { get; set; }
 
-        public DateTime CreateTime { get; private set; }
+        public DateTime CreatedOn { get; private set; }
         
         public bool IsActive { get; set; }
 
@@ -33,7 +33,7 @@ namespace Blog.Core.Models
             : this(0, firstName, lastName, DateTime.Now, email, bio, userType, isActive) { }
 
         // Used for creating users from database
-        public User(int id, string firstName, string lastName, DateTime createTime, string email, string bio, UserType userType, bool isActive)
+        public User(int id, string firstName, string lastName, DateTime createdOn, string email, string bio, UserType userType, bool isActive)
         {
             this.Id = id;
             this.FirstName = firstName;
@@ -41,7 +41,7 @@ namespace Blog.Core.Models
             this.Email = email;
             this.Bio = bio;
             this.Type = userType;
-            this.CreateTime = createTime;
+            this.CreatedOn = createdOn;
             this.IsActive = isActive;
         }
 
