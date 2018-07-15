@@ -5,20 +5,22 @@ namespace Blog.Persistance.Queries
 {
     public static class SqlFilterGenerator
     {
-        public static void GenerateSql(dynamic filter, ref string query)
+        public static string GenerateSql(dynamic filter)
         {
-            query = string.Empty;
+            var query = "WHERE 1 = 1";
             var properties = filter.GetType().GetProperties();
 
             foreach(var property in properties)
             {
                 query += Handle(property.GetValue(filter));
             }
+
+            return query;
         }
 
         private static string Handle(IntegerColumn column)
         {
-            if(column.Operator == IntegerColumn.Operators.None)
+            if (column.Operator == IntegerColumn.Operators.None)
             {
                 return string.Empty;
             }
@@ -46,18 +48,30 @@ namespace Blog.Persistance.Queries
             }
             else
             {
-                return string.Format(" AND {0} {1} {2}", column.Name, GetOperator(column.Operator), column.Value);
+                return string.Format(" AND {0} {1} '{2}'", column.Name, GetOperator(column.Operator), column.Value);
             }
         }
 
         private static string Handle(DateColumn column)
         {
-            return string.Empty;
+            var query = string.Empty;
 
             if (column.Operator == DateColumn.Operators.None)
             {
-                return string.Empty;
+                return query;
             }
+
+            if (column.Operator == DateColumn.Operators.EqualTo)
+            {
+                query = string.Format(" AND ({0} >= '{1} 00:00:00.000' AND {0} < '{2} 00:00:00.000')", column.Name, column.Value.ToString("yyyy-MM-dd"), column.Value.AddDays(1).ToString("yyyy-MM-dd"));
+            }
+
+            if (column.Operator == DateColumn.Operators.Between)
+            {
+                query = string.Format(" AND ({0} BETWEEN '{1} 00:00:00.000' AND '{2} 00:00:00.000')", column.Name, column.From.ToString("yyyy-MM-dd"), column.To.ToString("yyyy-MM-dd"));
+            }
+            
+            return query;
         }
 
         public static string GetOperator(IntegerColumn.Operators @operator)
@@ -105,29 +119,6 @@ namespace Blog.Persistance.Queries
                     result = "LIKE";
                     break;
                 case TextColumn.Operators.NotLike:
-                    result = "NOT LIKE";
-                    break;
-            }
-
-            return result;
-        }
-
-        public static string GetOperator(DateColumn.Operators @operator)
-        {
-            var result = string.Empty;
-
-            switch (@operator)
-            {
-                case DateColumn.Operators.In:
-                    result = "IN";
-                    break;
-                case DateColumn.Operators.Between:
-                    result = "BETWEEN";
-                    break;
-                case DateColumn.Operators.Like:
-                    result = "LIKE";
-                    break;
-                case DateColumn.Operators.NotLike:
                     result = "NOT LIKE";
                     break;
             }

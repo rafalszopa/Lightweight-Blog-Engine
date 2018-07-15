@@ -11,6 +11,8 @@ namespace Blog.Core.Repository
 
         User GetById(int id);
 
+        User GetByPostId(int postId);
+
         IEnumerable<User> GetAll();
     }
 }

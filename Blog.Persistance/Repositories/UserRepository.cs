@@ -64,6 +64,12 @@ namespace Blog.Persistance.Repository
             return user;
         }
 
+        public User GetByPostId(int postId)
+        {
+            var user = this.connection.Query<User>(UserQuery.GetByPostId(), new { PostId = postId }, this.transaction).FirstOrDefault();
+            return user;
+        }
+
         public IEnumerable<User> GetAll()
         {
             var users = this.connection.Query<User>(UserQuery.GetAll(), this.transaction);

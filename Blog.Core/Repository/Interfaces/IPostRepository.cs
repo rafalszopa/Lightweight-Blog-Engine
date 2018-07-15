@@ -10,10 +10,12 @@ namespace Blog.Core.Repository
 
         Post FindById(int postId);
 
-        IEnumerable<Post> Find(PostFilter filter);
+        IEnumerable<Post> Find(int page, int size, PostFilter filter = null);
                 
         void Delete(int postId);
 
         void Update(Post entity);
+
+        IEnumerable<dynamic> Foo();
     }
 }

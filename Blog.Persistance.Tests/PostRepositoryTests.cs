@@ -87,6 +87,8 @@ namespace Blog.Persistance.Tests
             // Arrange
             using (var uow = new UnityOfWork("ww"))
             {
+                var user = uow.UserRepository.GetByPostId(1);
+
                 //var filter = new PostFilter()
                 //{
                 //    id = 1,
@@ -111,11 +113,12 @@ namespace Blog.Persistance.Tests
 
                 postFilter.Id.EqualTo(1);
                 postFilter.CreatedOn.Between(DateTime.MinValue, DateTime.MaxValue);
+                postFilter.PublishedOn.EqualTo(DateTime.Now);
                 postFilter.Status.EqualTo((int)PostStatus.Draft);
                 postFilter.AuthorId.NotEqualTo((int)UserType.Admin);
                 postFilter.Title.Like("Part 1%");
 
-                uow.PostRepository.Find(postFilter);
+                uow.PostRepository.Find(1, 2, postFilter);
 
                 //filter.Id = new IntegerFilter(1, ComparisonOperators.EqualTo);
                 //filter.CreatedOn = new DateFilter(DateTime.Today, DateTime.Today, LogicalOperators.Between);

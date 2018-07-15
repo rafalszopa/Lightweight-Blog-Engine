@@ -27,21 +27,24 @@ namespace Blog.Persistance.Repository
 
         public Post FindById(int postId)
         {
-            throw new NotImplementedException();
+            var builder = new SqlBuilder();
+            var selector = builder.AddTemplate(PostQuery.GetSinglePost());
+            builder.Where("Id = @PostId");
+
+            return this.connection.QueryFirstOrDefault<Post>(selector.RawSql, new { PostId = postId }, this.transaction);
         }
 
-        public IEnumerable<Post> Find(PostFilter filter = null)
+        public IEnumerable<Post> Find(int page, int size, PostFilter filter = null)
         {
-            //var query = PostQuery.GetFilters(filter);
+            var builder = new SqlBuilder();
+            var selector = builder.AddTemplate(PostQuery.GetManyPosts());
+            
+            if(filter != null)
+            {
+                builder.Where(SqlFilterGenerator.GenerateSql(filter));
+            }
 
-            string where = string.Empty;
-
-            SqlFilterGenerator.GenerateSql(filter, ref where);
-
-            // If filter != null
-            // GetQuery 
-
-            throw new NotImplementedException();
+            return this.connection.Query<Post>(PostQuery.GetManyPosts(), new { PageIndex = page - 1, PageSize = size }, this.transaction);
         }
 
         public void Delete(int postId)
@@ -52,6 +55,33 @@ namespace Blog.Persistance.Repository
         public void Update(Post entity)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<dynamic> Foo()
+        {
+            string query = @"
+                            SELECT
+                            Posts.Id,
+                            Posts.Title,
+                            Posts.Description,
+                            Posts.PhotoUrl,
+                            Posts.PublishDate,
+                            STUFF(
+	                            (SELECT ',' + T.Name
+	                            FROM Post_Tag PT
+	                            LEFT JOIN Tags T ON PT.TagId = T.Id
+	                            WHERE PT.PostId = Posts.Id
+	                            FOR XML PATH('')),
+	                            1, 1, '') _tags,
+                            Users.FirstName Author_FirstName,
+                            Users.LastName Author_LastName,
+                            Users.Email Author_Email
+                            FROM Posts
+                            LEFT JOIN Users ON Posts.UserId = Users.Id
+                            WHERE Posts.IsActive = 1;";
+
+            var result = this.connection.Query<dynamic>(query, new { }, this.transaction);
+            return result;
         }
     }
 }
