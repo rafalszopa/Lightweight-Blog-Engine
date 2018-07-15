@@ -45,12 +45,12 @@ namespace Blog.MVC
                 routes.MapRoute(
                     name: "blog",
                     template: "blog/{slug:minlength(1)}",
-                    defaults: new { controller = "Blog", action = "Index" });
+                    defaults: new { controller = "Blog", action = "Post" });
 
                 routes.MapRoute(
                     name: "blog-posts",
                     template: "blog",
-                    defaults: new { controller = "Blog", action = "Posts" });
+                    defaults: new { controller = "Blog", action = "ListPosts" });
 
                 routes.MapRoute(
                     name: "default",
