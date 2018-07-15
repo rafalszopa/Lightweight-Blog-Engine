@@ -1,10 +1,11 @@
-﻿@model IEnumerable<Blog.Core.Models.Post>
+﻿@model IEnumerable<Blog.MVC.ViewModels.HomePageViewModel>
 
 <div class="board">
     <div class="board__left">
         <div class="board__thumbnail" style="background: url('../images/red.png')"></div>
         <h2 class="board__headline">
-            #24: Book Club: “The Bitcoin Standard” (Part 1) - critical review
+            @*#24: Book Club: “The Bitcoin Standard” (Part 1) - critical review*@
+            @Model.ToList()[0].Title
         </h2>
         <p class="board__trailer">
             We’ll deliver the best stories and ideas on the topics you care about most straight to your homepage, app, or inbox.
@@ -14,7 +15,7 @@
                 <img class="author-summary__thumbnail" src="images/avatar.jpg">
             </div>
             <div class="author-summary__item">
-                <div class="author-summary__name">Rafał Szopa</div>
+                <div class="author-summary__name">@Model.ToList()[0].Author.FirstName + @Model.ToList()[0].Author.LastName</div>
                 <div class="author-summary__date">2017 Oct 24</div>
             </div>
             <div class="author-summary__item">
@@ -97,9 +98,9 @@
     </div>
 </div>
 
-<ul>
+@*<ul>
     @foreach(var post in Model)
     {
         <li>@post.Title: <pre>@string.Join(" | ",post.Tags.Select(o => o.Name).ToArray())</pre></li>
     }
-</ul>
+</ul>*@

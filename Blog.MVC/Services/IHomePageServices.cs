@@ -5,6 +5,6 @@ namespace Blog.MVC.Services
 {
     public interface IHomePageServices
     {
-        IEnumerable<Post> GetPosts();
+        //IEnumerable<Post> GetPosts();
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Blog.MVC.Models;
 using Blog.MVC.Services;
@@ -21,9 +17,10 @@ namespace Blog.MVC.Controllers
 
         public IActionResult Index()
         {
-            var posts = this.homePageService.GetPosts();
+            //var posts = this.homePageService.Foo();
+            var viewModel = this.homePageService.GetHomePageViewModel();
 
-            return View(posts);
+            return View(viewModel);
         }
 
         public IActionResult About()

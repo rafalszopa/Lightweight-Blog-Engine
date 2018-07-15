@@ -20,7 +20,7 @@ namespace Blog.MVC.Controllers
 
         public IActionResult Index()
         {
-            var posts = this.homePageService.GetPosts();
+            var posts = this.homePageService.Foo();
 
             return View(posts);
         }

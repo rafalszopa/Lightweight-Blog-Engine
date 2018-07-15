@@ -1,18 +1,27 @@
-﻿using Blog.Core;
-using Blog.Core.Models;
+﻿using Blog.Core.Models;
+using Blog.MVC.Queries;
+using Blog.MVC.ViewModels;
 using Blog.Persistance;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Blog.MVC.Services
 {
     public class HomePageServices : IHomePageServices
     {
-        IUnityOfWork unitOfWork;
-
         public HomePageServices()
         {
             /*his.unitOfWork = new UnityOfWork("connectionString");*/
+        }
+
+        public IList<HomePageViewModel> GetHomePageViewModel()
+        {
+            IDbConnection connection = new SqlConnection(AppSettings.ConnectionString);
+            var homePageViewModel = new GetHomaPageViewModel().Execute(connection);
+
+            return homePageViewModel.ToList();
         }
 
         public Post Foo()
@@ -26,26 +35,30 @@ namespace Blog.MVC.Services
                 return post;
             }
         }
+    }
 
-        public IEnumerable<Post> GetPosts()
+    public static class AppSettings
+    {
+        public static int NumberOfHomePosts = 5;
+
+        public static string ConnectionString
         {
-            //using (var unitOfWork = new UnityOfWork("connectionString"))
-            //{
-            //    var posts = unitOfWork.PostRepository.GetAll();
-
-            //    foreach(var post in posts)
-            //    {
-            //        post.Tags = unitOfWork.TagRepository.GetTagsByPostId(post.Id).ToList();
-            //    }
-
-            //    return posts;
-            //}
-            return null;
+            get
+            {
+                return @"Data Source=DESKTOP-NA9A7AC;Initial Catalog=Blog.IntegrationTests;User id=DESKTOP-NA9A7AC\Rafal;Integrated Security=True;";
+            }
         }
     }
 
-    public class AppSettings
+    public static class HomePageSettings
     {
-        public int NumberOfHomePosts = 5;
+        public static int PageSize
+        {
+            get
+            {
+                return 5;
+            }
+        }
     }
+
 }
