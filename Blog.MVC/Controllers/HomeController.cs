@@ -25,8 +25,7 @@ namespace Blog.MVC.Controllers
 
         public IActionResult About()
         {
-            var post = this.homePageService.Foo();
-            return View(post);
+            return View();
         }
 
         public IActionResult Posts()

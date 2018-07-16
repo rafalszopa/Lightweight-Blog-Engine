@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Blog.MVC.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using Blog.MVC.Services;
 
 namespace Blog.MVC.Controllers
@@ -20,7 +14,8 @@ namespace Blog.MVC.Controllers
 
         public IActionResult Index()
         {
-            var posts = this.homePageService.Foo();
+            var (posts, totalNumberOfPosts) = this.homePageService.GetHomePageViewModel();
+            ViewBag["TotalNumberOfPosts"] = totalNumberOfPosts;
 
             return View(posts);
         }

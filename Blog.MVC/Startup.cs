@@ -39,6 +39,7 @@ namespace Blog.MVC
             {
                 routes.MapRoute(
                     name: "blog-list-all-posts",
+                    // Prevent from negative numbers
                     template: "blog/{page:int}",
                     defaults: new { controller = "Blog", action = "ListPosts", page = 1 });
 

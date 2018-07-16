@@ -1,64 +1,40 @@
-﻿using Blog.Core.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Blog.MVC.DataAccess;
 using Blog.MVC.Queries;
 using Blog.MVC.ViewModels;
-using Blog.Persistance;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
 
 namespace Blog.MVC.Services
 {
+    // Rename to BlogServices
     public class HomePageServices : IHomePageServices
     {
-        public HomePageServices()
+        private readonly IConnectionFactory connectionFactory;
+
+        public HomePageServices(IConnectionFactory connectionFactory = null)
         {
-            /*his.unitOfWork = new UnityOfWork("connectionString");*/
+            this.connectionFactory = connectionFactory ?? new ConnectionFactory();
         }
 
-        public IList<HomePageViewModel> GetHomePageViewModel()
+        public (IList<PostTeaserViewModel> posts, int totalNumberOfPosts) GetHomePageViewModel()
         {
-            IDbConnection connection = new SqlConnection(AppSettings.ConnectionString);
-            var homePageViewModel = new GetHomaPageViewModel().Execute(connection);
-
-            return homePageViewModel.ToList();
-        }
-
-        public Post Foo()
-        {
-            using (var unitOfWork = new UnityOfWork("connectionString"))
+            using (var connection = this.connectionFactory.Create(AppSettings.ConnectionString))
             {
-                var post = unitOfWork.PostRepository.FindById(1);
-                post.Tags = unitOfWork.TagRepository.GetTagsByPostId(1).ToList();
-                post.Details = unitOfWork.PostDetailsRepository.GetById(1);
+                var homePageViewModel = new HomePagePostsQuery(0, 5).Execute(connection);
+                var numberOfPosts = new TotalNumberOfPostsQuery().Execute(connection);
 
-                return post;
+                return (posts: homePageViewModel.ToList(), totalNumberOfPosts: numberOfPosts);
             }
         }
-    }
 
-    public static class AppSettings
-    {
-        public static int NumberOfHomePosts = 5;
-
-        public static string ConnectionString
+        public (IList<PostTeaserViewModel> posts, int totalNumberOfPosts) GetListOfPosts(int page)
         {
-            get
-            {
-                return @"Data Source=DESKTOP-NA9A7AC;Initial Catalog=Blog.IntegrationTests;User id=DESKTOP-NA9A7AC\Rafal;Integrated Security=True;";
-            }
-        }
-    }
+            var connection = this.connectionFactory.Create(AppSettings.ConnectionString);
+            var homePageViewModel = new HomePagePostsQuery(page - 1, 5).Execute(connection);
 
-    public static class HomePageSettings
-    {
-        public static int PageSize
-        {
-            get
-            {
-                return 5;
-            }
+            return (posts: homePageViewModel.ToList(), totalNumberOfPosts: 17);
         }
-    }
 
+        // TO DO: Implement following methods: GetHomePagePosts, GetListOfPosts, GetPage, Tags (!), SearchByTag(string[] tags)
+    }
 }
