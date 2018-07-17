@@ -1,4 +1,11 @@
-﻿<div class="container">
+﻿@model List<Blog.MVC.ViewModels.PostTeaserViewModel>;
+@{
+    int currentPage = (int)ViewData["CurrentPage"];
+    int totalNumberOfPages = (int)ViewData["TotalNumberOfPages"];
+}
+
+<div class="container">
+    <h1>Page: @ViewData["CurrentPage"] / @ViewData["TotalNumberOfPages"]</h1>
     <div class="row">
         <div class="col-12">
             <section class="page">
@@ -9,90 +16,41 @@
                         <button class="search-box__button">Search</button>
                     </div>
                 </div>
-                <section class="summary__item">
-                    <a href="/"></a>
-                    <h3 class="summary__date">03<br />2018</h3>
-                    <div class="summary__thumbnail">
-                        <img src="~/images/pic2_thumbnail.jpg" />
-                    </div>
-                    <h2 class="summary__headline">
-                        True colors of working as a full stack developer - practical advices
-                    </h2>
-                    <div class="author-summary">
-                        <div class="author-summary__item">
-                            <img class="author-summary__thumbnail" src="~/images/avatar.jpg" />
-                        </div>
-                        <div class="author-summary__item">
-                            <div class="author-summary__name">Rafał Szopa</div>
-                            <div class="author-summary__date">2017 Oct 24</div>
-                        </div>
-                        <div class="author-summary__item">
-                            <a class="follow-button" href="/">Follow</a>
-                        </div>
-                    </div>
-                </section>
 
-                <section class="summary__item">
-                    <div class="summary__thumbnail">
-                        <img src="~/images/pic_thumbnail.jpg" />
-                    </div>
-                    <h2 class="summary__headline">
-                        Let me ask you a question. How much do you know about what happens under the hood?
-                    </h2>
-                    <div class="author-summary">
-                        <div class="author-summary__item">
-                            <img class="author-summary__thumbnail" src="~/images/avatar.jpg" />
+                @foreach (var post in Model)
+                {
+                    <section class="summary__item">
+                        <a href="/"></a>
+                        <h3 class="summary__date">03<br />2018</h3>
+                        <div class="summary__thumbnail">
+                            <img src="~/images/pic2_thumbnail.jpg" />
                         </div>
-                        <div class="author-summary__item">
-                            <div class="author-summary__name">Rafał Szopa</div>
-                            <div class="author-summary__date">2017 Oct 24</div>
+                        <a href="@Url.RouteUrl("blog", new { slug = post.Slug })" style="text-decoration: none;">
+                            <h2 class="summary__headline">@post.Title</h2>
+                        </a>
+                        <div class="author-summary">
+                            <div class="author-summary__item">
+                                <img class="author-summary__thumbnail" src="~/images/avatar.jpg" />
+                            </div>
+                            <div class="author-summary__item">
+                                <div class="author-summary__name">@post.Author.FirstName @post.Author.LastName</div>
+                                <div class="author-summary__date">@post.PublishedOnFormatted</div>
+                            </div>
+                            <div class="author-summary__item">
+                                <a class="follow-button" href="/">Follow</a>
+                            </div>
                         </div>
-                        <div class="author-summary__item">
-                            <a class="follow-button" href="/">Follow</a>
-                        </div>
-                    </div>
-                </section>
-                <section class="summary__item">
-                    <div class="summary__thumbnail">
-                        <img src="~/images/pic_thumbnail.jpg" />
-                    </div>
-                    <h2 class="summary__headline">
-                        Let me ask you a question. How much do you know about what happens under the hood?
-                    </h2>
-                    <div class="author-summary">
-                        <div class="author-summary__item">
-                            <img class="author-summary__thumbnail" src="~/images/avatar.jpg" />
-                        </div>
-                        <div class="author-summary__item">
-                            <div class="author-summary__name">Rafał Szopa</div>
-                            <div class="author-summary__date">2017 Oct 24</div>
-                        </div>
-                        <div class="author-summary__item">
-                            <a class="follow-button" href="/">Follow</a>
-                        </div>
-                    </div>
-                </section>
-                <section class="summary__item">
-                    <div class="summary__thumbnail">
-                        <img src="~/images/pic_thumbnail.jpg" />
-                    </div>
-                    <h2 class="summary__headline">
-                        True colors of working as a full stack developer - practical advices
-                    </h2>
-                    <div class="author-summary">
-                        <div class="author-summary__item">
-                            <img class="author-summary__thumbnail" src="~/images/avatar.jpg" />
-                        </div>
-                        <div class="author-summary__item">
-                            <div class="author-summary__name">Rafał Szopa</div>
-                            <div class="author-summary__date">2017 Oct 24</div>
-                        </div>
-                        <div class="author-summary__item">
-                            <a class="follow-button" href="/">Follow</a>
-                        </div>
-                    </div>
-                </section>
-            </section>
+                    </section>
+                }
+
+                @if (currentPage > 1)
+                {
+                    <a href="@Url.RouteUrl("blog-list-all-posts", new { page = currentPage - 1 })">Previous</a>
+                }
+                @if (currentPage < totalNumberOfPages)
+                {
+                    <a href="@Url.RouteUrl("blog-list-all-posts", new { page = currentPage + 1 })">Next</a>
+                }
         </div>
     </div>
 </div>

@@ -4,6 +4,8 @@
     {
         public static int NumberOfHomePosts { get => 5; }
 
+        public static int NumberOfPostsPerPage { get => 5; }
+
         public static string ConnectionString { get => @"Data Source=DESKTOP-NA9A7AC;Initial Catalog=Blog.IntegrationTests;User id=DESKTOP-NA9A7AC\Rafal;Integrated Security=True;"; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Blog.MVC.ViewModels
@@ -15,6 +16,8 @@ namespace Blog.MVC.ViewModels
             public string Email { get; set; }
 
             public string Avatar { get; set; }
+
+            public string FullName { get => String.Format("{0} {1}", this.FirstName, this.LastName); }
         }
 
         public string Slug { get; set; }
@@ -31,17 +34,8 @@ namespace Blog.MVC.ViewModels
 
         public string _tags { get; set; }
 
-        public List<string> Tags
-        {
-            get
-            {
-                return _tags.Split(",").ToList();
-            }
+        public List<string> Tags { get => _tags.Split(",").ToList(); }
 
-            set
-            {
-                _tags = string.Join(",", value);
-            }
-        }
+        public string PublishedOnFormatted { get => String.Format("{0} {1} {2}", this.PublishedOn.Year, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(this.PublishedOn.Month), this.PublishedOn.Day); }
     }
 }
