@@ -19,17 +19,16 @@ namespace Blog.MVC.Services
         public (List<PostTeaserViewModel> posts, int totalNumberOfPages) GetListOfPosts(int page)
         {
             List<PostTeaserViewModel> posts;
-            int totalNumberOfPosts;
+            int totalNumberOfPages;
 
             using (var connection = connectionFactory.Create(AppSettings.ConnectionString))
             {
                 posts = new HomePagePostsQuery(page - 1, AppSettings.NumberOfPostsPerPage).Execute(connection).ToList();
-                totalNumberOfPosts = new TotalNumberOfPostsQuery().Execute(connection);
+                var totalNumberOfPosts = new TotalNumberOfPostsQuery().Execute(connection);
+                totalNumberOfPages = Decimal.ToInt32(Math.Ceiling((decimal)totalNumberOfPosts / AppSettings.NumberOfPostsPerPage));
             }
 
-            var totalNumberOfPages = Math.Ceiling((decimal)totalNumberOfPosts / AppSettings.NumberOfPostsPerPage);
-
-            return (posts, Decimal.ToInt32(totalNumberOfPages));
+            return (posts, (totalNumberOfPages));
         }
     }
 }
