@@ -3,12 +3,11 @@
 <div class="board">
     <div class="board__left">
         <div class="board__thumbnail" style="background: url('../images/red.png')"></div>
-        <h2 class="board__headline">
-            @Model[0].Title
-        </h2>
-        @*<p class="board__trailer">
-            We’ll deliver the best stories and ideas on the topics you care about most straight to your homepage, app, or inbox.
-        </p>*@
+        <a href="@Url.RouteUrl("blog", new { slug = Model[0].Slug })">
+            <h2 class="board__headline">
+                @Model[0].Title
+            </h2>
+        </a>
         <div class="author-summary">
             <div class="author-summary__item">
                 <img class="author-summary__thumbnail" src="images/avatar.jpg">
@@ -27,12 +26,11 @@
             <div class="item">
                 <div class="pic" style="background: url('../images/zebatka.png')" )></div>
                 <div class="content">
-                    <h2 class="board__headline">
-                        @Model[1].Title
-                    </h2>
-                    @*<p class="board__trailer">
-                        We’ll deliver the best stories and ideas on the topics you care about most straight...
-                    </p>*@
+                    <a href="@Url.RouteUrl("blog", new { slug = Model[1].Slug })">
+                        <h2 class="board__headline">
+                            @Model[1].Title
+                        </h2>
+                    </a>
                     <div class="author-summary">
                         <div class="author-summary__item">
                             <img class="author-summary__thumbnail" src="images/avatar.jpg">
@@ -50,9 +48,11 @@
             <div class="item">
                 <div class="pic" style="background: url('../images/koles.png')"></div>
                 <div class="content">
-                    <h2 class="board__headline">
-                        @Model[2].Title
-                    </h2>
+                    <a href="@Url.RouteUrl("blog", new { slug = Model[2].Slug })">
+                        <h2 class="board__headline">
+                            @Model[2].Title
+                        </h2>
+                    </a>
                     <div class="author-summary">
                         <div class="author-summary__item">
                             <img class="author-summary__thumbnail" src="images/avatar.jpg">
@@ -71,9 +71,11 @@
                 <div class="small-item">
                     <div class="sm-pic" style="background: url('../images/babka.png')"></div>
                     <div class="sm-content">
-                        <h2 class="sm__headline">
-                            @Model[3].Title
-                        </h2>
+                        <a href="@Url.RouteUrl("blog", new { slug = Model[3].Slug })">
+                            <h2 class="sm__headline">
+                                @Model[3].Title
+                            </h2>
+                        </a>
                         <div class="sm-author">
                             Posted by
                             <a href="/">@Model[3].Author.FullName</a> on @Model[3].PublishedOnFormatted
@@ -83,9 +85,11 @@
                 <div class="small-item">
                     <div class="sm-pic" style="background: url('../images/green.png')"></div>
                     <div class="sm-content">
-                        <h2 class="sm__headline">
-                            @Model[4].Title
-                        </h2>
+                        <a href="@Url.RouteUrl("blog", new { slug = Model[4].Slug })">
+                            <h2 class="sm__headline">
+                                @Model[4].Title
+                            </h2>
+                        </a>
                         <div class="sm-author">
                             Posted by
                             <a href="/">@Model[4].Author.FullName</a> on @Model[4].PublishedOnFormatted
@@ -96,10 +100,3 @@
         </div>
     </div>
 </div>
-
-@*<ul>
-    @foreach(var post in Model)
-    {
-        <li>@post.Title: <pre>@string.Join(" | ",post.Tags.Select(o => o.Name).ToArray())</pre></li>
-    }
-</ul>*@
