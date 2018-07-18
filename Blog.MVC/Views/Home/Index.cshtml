@@ -1,22 +1,21 @@
-﻿@model IEnumerable<Blog.MVC.ViewModels.PostTeaserViewModel>
+﻿@model IList<Blog.MVC.ViewModels.PostTeaserViewModel>
 
 <div class="board">
     <div class="board__left">
         <div class="board__thumbnail" style="background: url('../images/red.png')"></div>
         <h2 class="board__headline">
-            @*#24: Book Club: “The Bitcoin Standard” (Part 1) - critical review*@
-            @Model.ToList()[0].Title
+            @Model[0].Title
         </h2>
-        <p class="board__trailer">
+        @*<p class="board__trailer">
             We’ll deliver the best stories and ideas on the topics you care about most straight to your homepage, app, or inbox.
-        </p>
+        </p>*@
         <div class="author-summary">
             <div class="author-summary__item">
                 <img class="author-summary__thumbnail" src="images/avatar.jpg">
             </div>
             <div class="author-summary__item">
-                <div class="author-summary__name">@Model.ToList()[0].Author.FirstName + @Model.ToList()[0].Author.LastName</div>
-                <div class="author-summary__date">2017 Oct 24</div>
+                <div class="author-summary__name">@Model[0].Author.FullName</div>
+                <div class="author-summary__date">@Model[0].PublishedOnFormatted</div>
             </div>
             <div class="author-summary__item">
                 <a class="follow-button" href="/">Follow</a>
@@ -29,18 +28,18 @@
                 <div class="pic" style="background: url('../images/zebatka.png')" )></div>
                 <div class="content">
                     <h2 class="board__headline">
-                        How I became talking head
+                        @Model[1].Title
                     </h2>
-                    <p class="board__trailer">
+                    @*<p class="board__trailer">
                         We’ll deliver the best stories and ideas on the topics you care about most straight...
-                    </p>
+                    </p>*@
                     <div class="author-summary">
                         <div class="author-summary__item">
                             <img class="author-summary__thumbnail" src="images/avatar.jpg">
                         </div>
                         <div class="author-summary__item">
-                            <div class="author-summary__name">Rafał Szopa</div>
-                            <div class="author-summary__date">2017 Oct 24</div>
+                            <div class="author-summary__name">@Model[1].Author.FullName</div>
+                            <div class="author-summary__date">@Model[1].PublishedOnFormatted</div>
                         </div>
                         <div class="author-summary__item">
                             <a class="follow-button" href="/">Follow</a>
@@ -52,15 +51,15 @@
                 <div class="pic" style="background: url('../images/koles.png')"></div>
                 <div class="content">
                     <h2 class="board__headline">
-                        What if Kim Jong-Un wants peace?
+                        @Model[2].Title
                     </h2>
                     <div class="author-summary">
                         <div class="author-summary__item">
                             <img class="author-summary__thumbnail" src="images/avatar.jpg">
                         </div>
                         <div class="author-summary__item">
-                            <div class="author-summary__name">Rafał Szopa</div>
-                            <div class="author-summary__date">2017 Oct 24</div>
+                            <div class="author-summary__name">@Model[2].Author.FullName</div>
+                            <div class="author-summary__date">@Model[2].PublishedOnFormatted</div>
                         </div>
                         <div class="author-summary__item">
                             <a class="follow-button" href="/">Follow</a>
@@ -73,11 +72,11 @@
                     <div class="sm-pic" style="background: url('../images/babka.png')"></div>
                     <div class="sm-content">
                         <h2 class="sm__headline">
-                            Have you had a psychodelic trip worth telling?
+                            @Model[3].Title
                         </h2>
                         <div class="sm-author">
                             Posted by
-                            <a href="/">Rafal Szopa</a> on 2017 Oct 10
+                            <a href="/">@Model[3].Author.FullName</a> on @Model[3].PublishedOnFormatted
                         </div>
                     </div>
                 </div>
@@ -85,11 +84,11 @@
                     <div class="sm-pic" style="background: url('../images/green.png')"></div>
                     <div class="sm-content">
                         <h2 class="sm__headline">
-                            This is how Internet regulation can go really wrong
+                            @Model[4].Title
                         </h2>
                         <div class="sm-author">
                             Posted by
-                            <a href="/">Rafal Szopa</a> on 2017 Oct 10
+                            <a href="/">@Model[4].Author.FullName</a> on @Model[4].PublishedOnFormatted
                         </div>
                     </div>
                 </div>

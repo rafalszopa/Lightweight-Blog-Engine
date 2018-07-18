@@ -16,15 +16,16 @@ namespace Blog.MVC.Services
             this.connectionFactory = connectionFactory ?? new ConnectionFactory();
         }
 
-        public (IList<PostTeaserViewModel> posts, int totalNumberOfPosts) GetHomePageViewModel()
+        public IList<PostTeaserViewModel> GetHomePageViewModel()
         {
+            List<PostTeaserViewModel> homePageViewModel;
+
             using (var connection = this.connectionFactory.Create(AppSettings.ConnectionString))
             {
-                var homePageViewModel = new HomePagePostsQuery(0, 5).Execute(connection);
-                var numberOfPosts = new TotalNumberOfPostsQuery().Execute(connection);
-
-                return (posts: homePageViewModel.ToList(), totalNumberOfPosts: numberOfPosts);
+                homePageViewModel = new HomePagePostsQuery(0, AppSettings.NumberOfHomePosts).Execute(connection);
             }
+
+            return homePageViewModel;
         }
 
         public (IList<PostTeaserViewModel> posts, int totalNumberOfPosts) GetListOfPosts(int page)

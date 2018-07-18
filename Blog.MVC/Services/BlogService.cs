@@ -23,7 +23,7 @@ namespace Blog.MVC.Services
 
             using (var connection = connectionFactory.Create(AppSettings.ConnectionString))
             {
-                posts = new HomePagePostsQuery(page - 1, AppSettings.NumberOfPostsPerPage).Execute(connection).ToList();
+                posts = new HomePagePostsQuery(page - 1, AppSettings.NumberOfPostsPerPage).Execute(connection);
                 var totalNumberOfPosts = new TotalNumberOfPostsQuery().Execute(connection);
                 totalNumberOfPages = Decimal.ToInt32(Math.Ceiling((decimal)totalNumberOfPosts / AppSettings.NumberOfPostsPerPage));
             }
