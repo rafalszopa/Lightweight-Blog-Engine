@@ -1,4 +1,5 @@
 using Blog.API.ViewModels;
+using Blog.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace Blog.API.Controllers
     [Route("api/[controller]")]
     public class PostsController
     {
+        private ICommandBus commandBus;
+
         private static IEnumerable<PostViewModel> Posts = new List<PostViewModel>()
         {
             new PostViewModel() { Id = 1, Title = "First post", CreatedOn = DateTime.Now.AddDays(-20).ToShortDateString() },
@@ -19,14 +22,16 @@ namespace Blog.API.Controllers
             new PostViewModel() { Id = 5, Title = "This is the coolest one", CreatedOn = DateTime.Now.AddDays(-1).ToShortDateString() }
         };
 
-        public PostsController()
+        public PostsController(ICommandBus commandBus)
         {
-
+            this.commandBus = commandBus;
         }
 
         [HttpGet("[action]")]
         public IEnumerable<PostViewModel> Index()
         {
+
+
             return Posts;
         }
     }
