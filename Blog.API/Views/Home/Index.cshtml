@@ -1,5 +1,15 @@
+@using Blog.API.HtmlHelpers;
+
 @{ ViewData["Title"] = "Home Page"; }
 
+@*@if (Html.IsDebugMode())
+{
+    <h1>Debug mode</h1>
+}
+else
+{
+    <h1>Production mode</h1>
+}*@
 <div id="app"></div>
 
 @section scripts {

@@ -1,3 +1,5 @@
+@using Blog.API.HtmlHelpers;
+
 <!DOCTYPE html>
 <html>
 
@@ -10,6 +12,11 @@
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
     </environment>
+
+    @if (!Html.IsDebugMode())
+    {
+        <link rel="stylesheet" type="text/css" href="C:\Users\Rafal\Desktop\prodstyle.css">
+    }
 </head>
 
 <body>
